@@ -130,11 +130,16 @@ The previous `CLAUDE.md` focused on workflow behavior; keep these principles whe
    - `yard_alchemy_table` 已从整块模型重置为四脚炼金工作台模型。
    - `yard_offering_pedestal` 已重置为带托盘的小供物台模型。
    - 这些非完整方块已在注册属性中加入 `noOcclusion()`，防止底部空隙透视到地底。
-6. 物品/方块资源注意事项：
+6. 庭院表现反馈：
+   - `yard_anchor` 客户端随机生成魂火粒子，强化庭院锚点存在感。
+   - `yard_alchemy_table` 客户端随机生成附魔粒子，提示炼金设施处于可交互状态。
+   - `yard_offering_pedestal` 放置/取下供物时播放书架插入/取出音效，放置时生成少量附魔粒子。
+   - 庭院炼金成功时播放附魔台音效，并在炼金台上方生成魂火与附魔粒子。
+7. 物品/方块资源注意事项：
    - Minecraft 1.21.10 物品需要 `assets/tlipoca/items/*.json` 映射到 `models/item/*.json`，否则会出现紫黑缺失纹理。
    - 已为现有物品和方块物品补齐 `assets/tlipoca/items/` 下的映射文件。
    - `guest_ledger` 使用 `models/item/guest_ledger.json` + `textures/item/guest_ledger_3d.png` 实现 3D 手持模型。
-7. Blockbench 工作流约定：
+8. Blockbench 工作流约定：
    - 已接入 MCP Blockbench，可直接创建项目、放置 cube、绘制贴图、导出模型。
    - 以后做模型时应把实际贴图导入/绑定到 Blockbench 预览，避免只用临时色块导致游戏内效果和预览偏差。
 

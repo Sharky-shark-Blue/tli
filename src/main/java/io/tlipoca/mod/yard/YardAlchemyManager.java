@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -80,6 +84,7 @@ public final class YardAlchemyManager {
                 offering.pedestal().removeOffering();
             }
             spawnResult(level, tablePos, recipe.result().copy());
+            playAlchemyFeedback(level, tablePos);
             player.displayClientMessage(Component.literal(recipe.message()), false);
             return;
         }
@@ -132,6 +137,14 @@ public final class YardAlchemyManager {
         );
         itemEntity.setDeltaMovement(0.0D, 0.2D, 0.0D);
         level.addFreshEntity(itemEntity);
+    }
+
+    private static void playAlchemyFeedback(Level level, BlockPos tablePos) {
+        level.playSound(null, tablePos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 0.8F, 0.85F);
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, tablePos.getX() + 0.5D, tablePos.getY() + 1.15D, tablePos.getZ() + 0.5D, 10, 0.35D, 0.18D, 0.35D, 0.02D);
+            serverLevel.sendParticles(ParticleTypes.ENCHANT, tablePos.getX() + 0.5D, tablePos.getY() + 1.25D, tablePos.getZ() + 0.5D, 18, 0.45D, 0.25D, 0.45D, 0.04D);
+        }
     }
 
     private record OfferingSlot(YardOfferingPedestalBlockEntity pedestal, ItemStack stack) {

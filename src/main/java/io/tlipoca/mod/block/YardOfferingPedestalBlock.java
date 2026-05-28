@@ -2,8 +2,12 @@ package io.tlipoca.mod.block;
 
 import io.tlipoca.mod.block.entity.YardOfferingPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -51,6 +55,10 @@ public class YardOfferingPedestalBlock extends Block implements EntityBlock {
         if (!serverPlayer.isCreative()) {
             stack.shrink(1);
         }
+        level.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_INSERT, SoundSource.BLOCKS, 0.55F, 1.25F);
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.ENCHANT, pos.getX() + 0.5D, pos.getY() + 1.05D, pos.getZ() + 0.5D, 6, 0.22D, 0.12D, 0.22D, 0.01D);
+        }
         return InteractionResult.SUCCESS;
     }
 
@@ -94,5 +102,6 @@ public class YardOfferingPedestalBlock extends Block implements EntityBlock {
         ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 1.05D, pos.getZ() + 0.5D, offering);
         itemEntity.setDeltaMovement(0.0D, 0.08D, 0.0D);
         level.addFreshEntity(itemEntity);
+        level.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 0.55F, 1.1F);
     }
 }

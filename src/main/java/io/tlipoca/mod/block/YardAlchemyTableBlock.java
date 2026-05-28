@@ -3,8 +3,10 @@ package io.tlipoca.mod.block;
 import io.tlipoca.mod.yard.YardManager;
 import io.tlipoca.mod.yard.YardAlchemyManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +32,17 @@ public class YardAlchemyTableBlock extends Block {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         handleUse(level, pos, player);
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(7) != 0) {
+            return;
+        }
+        double x = pos.getX() + 0.5D + (random.nextDouble() - 0.5D) * 0.55D;
+        double y = pos.getY() + 1.02D;
+        double z = pos.getZ() + 0.5D + (random.nextDouble() - 0.5D) * 0.55D;
+        level.addParticle(ParticleTypes.ENCHANT, x, y, z, 0.0D, 0.04D, 0.0D);
     }
 
     private static void handleUse(Level level, BlockPos pos, Player player) {

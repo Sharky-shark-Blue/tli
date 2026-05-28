@@ -5,8 +5,10 @@ import io.tlipoca.mod.block.entity.YardAnchorBlockEntity;
 import io.tlipoca.mod.yard.YardManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -36,6 +38,17 @@ public class YardAnchorBlock extends Block implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(5) != 0) {
+            return;
+        }
+        double x = pos.getX() + 0.5D + (random.nextDouble() - 0.5D) * 0.7D;
+        double y = pos.getY() + 0.85D + random.nextDouble() * 0.35D;
+        double z = pos.getZ() + 0.5D + (random.nextDouble() - 0.5D) * 0.7D;
+        level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 0.0D, 0.01D, 0.0D);
     }
 
     private static void inspectYard(Level level, BlockPos pos, Player player) {
