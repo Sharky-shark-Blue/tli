@@ -26,7 +26,7 @@ displayName="${mod_name}" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://delicious-dime-2b1.notion.site/AI-2eb2c2aee5ef802fb0e3e6c056e51e83" #optional
+#displayURL="" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="assets/tlipoca/logo.png" #optional
 # A text field displayed in the mod UI
@@ -42,7 +42,7 @@ authors="Sharky-shark-Blue" #optional
 #displayTest="MATCH_VERSION" # if nothing is specified, MATCH_VERSION is the default when clientSideOnly=false, otherwise IGNORE_ALL_VERSION when clientSideOnly=true (#optional)
 
 # The description text for the mod (multi line!) (#mandatory)
-description='''A Yog-Sothoth's Yard fan mod about Tlipoca, SAN, oracles, yard alchemy, and soul-hunting commissions.'''
+description='''一个基于《Yog-Sothoth's Yard》的同人模组，围绕 Tlipoca、SAN、神谕、庭院炼金与灵魂委托展开，新增对应的物品、方块、GUI 与玩法内容。'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.${mod_id}]] #optional
     # the modid of the dependency
