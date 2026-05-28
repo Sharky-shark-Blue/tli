@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "tlipoca:block/bounty_board_top",
+    "down": "tlipoca:block/yard_dark_stone",
+    "north": "tlipoca:block/bounty_board_front",
+    "south": "tlipoca:block/bounty_board_side",
+    "east": "tlipoca:block/bounty_board_side",
+    "west": "tlipoca:block/bounty_board_side",
+    "particle": "tlipoca:block/bounty_board_front"
+  }
+}

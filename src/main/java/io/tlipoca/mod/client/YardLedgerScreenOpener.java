@@ -1,0 +1,13 @@
+package io.tlipoca.mod.client;
+
+import io.tlipoca.mod.network.OpenYardLedgerScreenMessage;
+import net.minecraft.client.Minecraft;
+
+public final class YardLedgerScreenOpener {
+    private YardLedgerScreenOpener() {
+    }
+
+    public static void open(OpenYardLedgerScreenMessage message) {
+        Minecraft.getInstance().setScreen(new YardLedgerScreen(message.inYard(), message.san(), message.unlockedOracleCount()));
+    }
+}

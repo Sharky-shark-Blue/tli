@@ -1,0 +1,116 @@
+{
+  "credit": "Made with Blockbench",
+  "texture_size": [32, 32],
+  "textures": {
+    "ledger": "tlipoca:item/guest_ledger_3d"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [70, 0, -35],
+      "translation": [0, 2.5, 1],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [70, 0, 35],
+      "translation": [0, 2.5, 1],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, -90, 25],
+      "translation": [1.13, 3.2, 1.13],
+      "scale": [0.68, 0.68, 0.68]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 90, -25],
+      "translation": [1.13, 3.2, 1.13],
+      "scale": [0.68, 0.68, 0.68]
+    },
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.9, 0.9, 0.9]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 2, 0],
+      "scale": [0.45, 0.45, 0.45]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    }
+  },
+  "elements": [
+    {
+      "name": "ledger_body",
+      "from": [3, 2, 6],
+      "to": [13, 14, 8],
+      "rotation": {"angle": -12, "axis": "z", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#ledger"},
+        "east": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#ledger"},
+        "west": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "up": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "down": {"uv": [16, 0, 32, 16], "texture": "#ledger"}
+      }
+    },
+    {
+      "name": "dark_spine",
+      "from": [2.2, 1.6, 5.7],
+      "to": [4.2, 14.4, 8.3],
+      "rotation": {"angle": -12, "axis": "z", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "east": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "south": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "west": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "up": {"uv": [0, 16, 16, 24], "texture": "#ledger"},
+        "down": {"uv": [0, 16, 16, 24], "texture": "#ledger"}
+      }
+    },
+    {
+      "name": "page_block",
+      "from": [4.2, 2.6, 5.45],
+      "to": [13.2, 13.4, 5.9],
+      "rotation": {"angle": -12, "axis": "z", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "east": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "south": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "west": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "up": {"uv": [16, 0, 32, 16], "texture": "#ledger"},
+        "down": {"uv": [16, 0, 32, 16], "texture": "#ledger"}
+      }
+    },
+    {
+      "name": "brass_clasp",
+      "from": [10.4, 7, 5.2],
+      "to": [13.8, 9.2, 8.5],
+      "rotation": {"angle": -12, "axis": "z", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [16, 16, 32, 24], "texture": "#ledger"},
+        "east": {"uv": [16, 16, 32, 24], "texture": "#ledger"},
+        "south": {"uv": [16, 16, 32, 24], "texture": "#ledger"},
+        "west": {"uv": [16, 16, 32, 24], "texture": "#ledger"},
+        "up": {"uv": [16, 16, 32, 24], "texture": "#ledger"},
+        "down": {"uv": [16, 16, 32, 24], "texture": "#ledger"}
+      }
+    },
+    {
+      "name": "teal_bookmark",
+      "from": [7.2, 0.2, 5.1],
+      "to": [8.8, 4.8, 5.55],
+      "rotation": {"angle": -12, "axis": "z", "origin": [8, 8, 8]},
+      "faces": {
+        "north": {"uv": [16, 24, 24, 32], "texture": "#ledger"},
+        "east": {"uv": [16, 24, 24, 32], "texture": "#ledger"},
+        "south": {"uv": [16, 24, 24, 32], "texture": "#ledger"},
+        "west": {"uv": [16, 24, 24, 32], "texture": "#ledger"},
+        "up": {"uv": [16, 24, 24, 32], "texture": "#ledger"},
+        "down": {"uv": [16, 24, 24, 32], "texture": "#ledger"}
+      }
+    }
+  ]
+}

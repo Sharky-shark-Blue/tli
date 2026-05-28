@@ -1,0 +1,62 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "anchor": "tlipoca:block/yard_anchor",
+    "stone": "tlipoca:block/yard_dark_stone",
+    "particle": "tlipoca:block/yard_anchor"
+  },
+  "elements": [
+    {
+      "name": "base",
+      "from": [1, 0, 1],
+      "to": [15, 3, 15],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#anchor"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "core",
+      "from": [4, 3, 4],
+      "to": [12, 11, 12],
+      "faces": {
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#anchor"},
+        "north": {"texture": "#anchor"},
+        "south": {"texture": "#anchor"},
+        "west": {"texture": "#anchor"},
+        "east": {"texture": "#anchor"}
+      }
+    },
+    {
+      "name": "cap",
+      "from": [3, 11, 3],
+      "to": [13, 13, 13],
+      "faces": {
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#anchor"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "small_glyph",
+      "from": [7, 13, 7],
+      "to": [9, 15, 9],
+      "faces": {
+        "down": {"texture": "#anchor"},
+        "up": {"texture": "#anchor"},
+        "north": {"texture": "#anchor"},
+        "south": {"texture": "#anchor"},
+        "west": {"texture": "#anchor"},
+        "east": {"texture": "#anchor"}
+      }
+    }
+  ]
+}

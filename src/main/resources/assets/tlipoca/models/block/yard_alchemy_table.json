@@ -1,0 +1,102 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "top": "tlipoca:block/yard_alchemy_table_top",
+    "side": "tlipoca:block/yard_alchemy_table_side",
+    "stone": "tlipoca:block/yard_dark_stone",
+    "particle": "tlipoca:block/yard_alchemy_table_side"
+  },
+  "elements": [
+    {
+      "name": "tabletop",
+      "from": [1, 10, 1],
+      "to": [15, 14, 15],
+      "faces": {
+        "down": {"texture": "#side"},
+        "up": {"texture": "#top"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"}
+      }
+    },
+    {
+      "name": "lower_slab",
+      "from": [2, 8, 2],
+      "to": [14, 10, 14],
+      "faces": {
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#top"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"}
+      }
+    },
+    {
+      "name": "leg_north_west",
+      "from": [2, 0, 2],
+      "to": [5, 8, 5],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#side"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#side"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#side"}
+      }
+    },
+    {
+      "name": "leg_north_east",
+      "from": [11, 0, 2],
+      "to": [14, 8, 5],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#side"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "leg_south_west",
+      "from": [2, 0, 11],
+      "to": [5, 8, 14],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#side"}
+      }
+    },
+    {
+      "name": "leg_south_east",
+      "from": [11, 0, 11],
+      "to": [14, 8, 14],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "raised_focus",
+      "from": [5, 14, 5],
+      "to": [11, 16, 11],
+      "faces": {
+        "down": {"texture": "#side"},
+        "up": {"texture": "#top"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"}
+      }
+    }
+  ]
+}
