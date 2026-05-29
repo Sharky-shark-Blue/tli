@@ -13,7 +13,8 @@ public record OpenYardLedgerScreenMessage(
     int memory,
     String stageName,
     String stageDescription,
-    String stageHint
+    String stageHint,
+    boolean hasMistLetter
 ) {
     public static void encode(OpenYardLedgerScreenMessage message, FriendlyByteBuf buffer) {
         buffer.writeBoolean(message.inYard());
@@ -27,6 +28,7 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeUtf(message.stageName());
         buffer.writeUtf(message.stageDescription());
         buffer.writeUtf(message.stageHint());
+        buffer.writeBoolean(message.hasMistLetter());
     }
 
     public static OpenYardLedgerScreenMessage decode(FriendlyByteBuf buffer) {
@@ -41,7 +43,8 @@ public record OpenYardLedgerScreenMessage(
             buffer.readVarInt(),
             buffer.readUtf(),
             buffer.readUtf(),
-            buffer.readUtf()
+            buffer.readUtf(),
+            buffer.readBoolean()
         );
     }
 }

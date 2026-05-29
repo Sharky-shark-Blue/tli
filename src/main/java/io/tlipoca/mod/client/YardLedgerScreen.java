@@ -15,7 +15,7 @@ public class YardLedgerScreen extends Screen {
     private static final int TEXT_WARN = 0xFFFF6666;
     private static final int TEXT_OK = 0xFF88DDCC;
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 320;
+    private static final int PANEL_HEIGHT = 390;
     private static final int SCREEN_MARGIN = 8;
     private static final int RECIPE_LINE_HEIGHT = 10;
     private static final String[] KNOWN_RECIPES = {
@@ -45,6 +45,7 @@ public class YardLedgerScreen extends Screen {
     private final String stageName;
     private final String stageDescription;
     private final String stageHint;
+    private final boolean hasMistLetter;
 
     public YardLedgerScreen(
         boolean inYard,
@@ -57,7 +58,8 @@ public class YardLedgerScreen extends Screen {
         int memory,
         String stageName,
         String stageDescription,
-        String stageHint
+        String stageHint,
+        boolean hasMistLetter
     ) {
         super(Component.literal("特莉波卡的庭院账簿"));
         this.inYard = inYard;
@@ -71,6 +73,7 @@ public class YardLedgerScreen extends Screen {
         this.stageName = stageName;
         this.stageDescription = stageDescription;
         this.stageHint = stageHint;
+        this.hasMistLetter = hasMistLetter;
     }
 
     @Override
@@ -89,8 +92,13 @@ public class YardLedgerScreen extends Screen {
         int contentX = left + 18;
         int contentWidth = panelWidth - 36;
         renderStatus(guiGraphics, contentX, top + 38, contentWidth);
-        renderRecord(guiGraphics, contentX, top + 131, contentWidth);
-        int recipesY = top + 172;
+        int recordY = top + 131;
+        if (hasMistLetter) {
+            renderMistLetter(guiGraphics, contentX, recordY, contentWidth);
+            recordY += 66;
+        }
+        renderRecord(guiGraphics, contentX, recordY, contentWidth);
+        int recipesY = recordY + 41;
         if (firstFullScytheReleaseSeen) {
             renderHarvestRecord(guiGraphics, contentX, recipesY, contentWidth);
             recipesY += 48;
@@ -143,6 +151,14 @@ public class YardLedgerScreen extends Screen {
         drawRecipeGroup(guiGraphics, "已有配方", KNOWN_RECIPES, x, y + 14, columnWidth);
         int nextY = drawRecipeGroup(guiGraphics, "基础庭院素材", BASIC_YARD_RECIPES, rightX, y + 14, columnWidth);
         drawRecipeGroup(guiGraphics, "庭院装饰", DECORATION_RECIPES, rightX, nextY + 2, columnWidth);
+    }
+
+    private void renderMistLetter(GuiGraphics guiGraphics, int x, int y, int width) {
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 58, SECTION_BG);
+        guiGraphics.drawString(this.font, "雾夜来信", x, y, TITLE_GOLD, true);
+        guiGraphics.drawString(this.font, fitText("“这里有灯……那我应该还没有走错太远。”", width), x, y + 14, TEXT_GRAY, true);
+        guiGraphics.drawString(this.font, "请求：蜂蜜瓶 x2", x, y + 30, TEXT_DIM, true);
+        guiGraphics.drawString(this.font, "回礼：记忆碎片 x1", x, y + 44, TEXT_OK, true);
     }
 
     private int drawRecipeGroup(GuiGraphics guiGraphics, String title, String[] recipes, int x, int y, int width) {

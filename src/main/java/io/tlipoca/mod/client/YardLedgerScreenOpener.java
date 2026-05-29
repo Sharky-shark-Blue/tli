@@ -19,7 +19,8 @@ public final class YardLedgerScreenOpener {
             message.memory(),
             message.stageName(),
             message.stageDescription(),
-            message.stageHint()
+            message.stageHint(),
+            message.hasMistLetter()
         ));
     }
 }

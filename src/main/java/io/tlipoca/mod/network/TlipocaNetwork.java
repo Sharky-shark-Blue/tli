@@ -93,7 +93,8 @@ public final class TlipocaNetwork {
             profile.memory(),
             stage.displayName(),
             stage.description(),
-            stage.hint()
+            stage.hint(),
+            YardManager.hasMistNightLetter(player, profile)
         ), PacketDistributor.PLAYER.with(player));
     }
 

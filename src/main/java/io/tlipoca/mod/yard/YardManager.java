@@ -99,6 +99,20 @@ public final class YardManager {
         return YardStage.STRANGE;
     }
 
+    public static boolean hasMistNightLetter(ServerPlayer player, YardProfile profile) {
+        if (!(player.level() instanceof ServerLevel level)) {
+            return false;
+        }
+        if (!isInYard(player) || level.dimension() != Level.OVERWORLD) {
+            return false;
+        }
+
+        long dayTime = level.getDayTime() % 24000L;
+        boolean isNight = dayTime >= 13000L && dayTime <= 23000L;
+        boolean isInvitedOrBetter = profile.otherworld() >= 5 && profile.memory() >= 3;
+        return isNight && isInvitedOrBetter;
+    }
+
     public static YardSurvey survey(ServerLevel level, BlockPos center) {
         int anchors = 0;
         int alchemyTables = 0;
