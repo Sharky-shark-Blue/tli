@@ -80,7 +80,13 @@ public final class TlipocaNetwork {
     public static void openYardLedgerScreen(ServerPlayer player) {
         PlayerOracleData data = OracleManager.getData(player);
         int unlockedOracleCount = countUnlockedOracles(data);
-        CHANNEL.send(new OpenYardLedgerScreenMessage(YardManager.isInYard(player), data.getSan(), unlockedOracleCount), PacketDistributor.PLAYER.with(player));
+        CHANNEL.send(new OpenYardLedgerScreenMessage(
+            YardManager.isInYard(player),
+            data.getSan(),
+            unlockedOracleCount,
+            data.isFirstFullScytheReleaseSeen(),
+            data.getTotalSoulsReleased()
+        ), PacketDistributor.PLAYER.with(player));
     }
 
     public static void openBountyBoardScreen(ServerPlayer player, BlockPos boardPos) {

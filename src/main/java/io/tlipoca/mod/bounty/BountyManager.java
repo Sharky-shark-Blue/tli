@@ -1,20 +1,31 @@
 package io.tlipoca.mod.bounty;
 
 import io.tlipoca.mod.TlipocaMod;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
 public final class BountyManager {
     public static final int SLOT_COUNT = 3;
     public static final long BOARD_REFRESH_TICKS = 24000L;
-    private static final List<BountyDefinition> DEFINITIONS = List.of(
-        BountyDefinition.wanderingRemnants(),
-        BountyDefinition.boneLedger(),
-        BountyDefinition.doorwayGaze()
+    private static final List<BountyEntry> BOUNTY_POOL = List.of(
+        new BountyEntry(BountyDefinition.wanderingRemnants(), 30),
+        new BountyEntry(BountyDefinition.boneLedger(), 30),
+        new BountyEntry(BountyDefinition.doorwayGaze(), 30),
+        new BountyEntry(BountyDefinition.villageWanderer(), 10)
+    );
+    private static final List<BountyDefinition> DEFINITIONS = BOUNTY_POOL.stream()
+        .map(BountyEntry::definition)
+        .toList();
+    private static final List<String> DEFAULT_BOARD_IDS = List.of(
+        BountyDefinition.wanderingRemnants().id(),
+        BountyDefinition.boneLedger().id(),
+        BountyDefinition.doorwayGaze().id()
     );
 
     private BountyManager() {
@@ -30,11 +41,35 @@ public final class BountyManager {
     }
 
     public static BountyDefinition getDefinitionForSlot(int slot) {
-        return DEFINITIONS.get(Math.floorMod(slot, DEFINITIONS.size()));
+        return getDefinition(getIdForSlot(slot));
     }
 
     public static String getIdForSlot(int slot) {
-        return getDefinitionForSlot(slot).id();
+        return DEFAULT_BOARD_IDS.get(Math.floorMod(slot, DEFAULT_BOARD_IDS.size()));
+    }
+
+    public static String[] rollBoardBounties(RandomSource random) {
+        List<String> rolledIds = new ArrayList<>();
+        for (int slot = 0; slot < SLOT_COUNT; slot++) {
+            rolledIds.add(rollWeightedId(random));
+        }
+        return rolledIds.toArray(String[]::new);
+    }
+
+    private static String rollWeightedId(RandomSource random) {
+        int totalWeight = 0;
+        for (BountyEntry entry : BOUNTY_POOL) {
+            totalWeight += entry.weight();
+        }
+
+        int value = random.nextInt(Math.max(1, totalWeight));
+        for (BountyEntry entry : BOUNTY_POOL) {
+            value -= entry.weight();
+            if (value < 0) {
+                return entry.definition().id();
+            }
+        }
+        return getIdForSlot(0);
     }
 
     public static ItemStack createContract(String bountyId, long currentGameTime) {
@@ -44,6 +79,7 @@ public final class BountyManager {
         tag.putString("id", definition.id());
         tag.putString("name", definition.name());
         tag.putString("target", definition.targetText());
+        tag.putString("flavor", definition.flavorText());
         tag.putInt("progress", 0);
         tag.putInt("required", definition.required());
         tag.putLong("deadlineGameTime", currentGameTime + definition.durationTicks());
@@ -94,5 +130,8 @@ public final class BountyManager {
                 player.drop(copy, false);
             }
         }
+    }
+
+    private record BountyEntry(BountyDefinition definition, int weight) {
     }
 }

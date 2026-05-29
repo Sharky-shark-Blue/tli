@@ -8,6 +8,12 @@ public final class YardLedgerScreenOpener {
     }
 
     public static void open(OpenYardLedgerScreenMessage message) {
-        Minecraft.getInstance().setScreen(new YardLedgerScreen(message.inYard(), message.san(), message.unlockedOracleCount()));
+        Minecraft.getInstance().setScreen(new YardLedgerScreen(
+            message.inYard(),
+            message.san(),
+            message.unlockedOracleCount(),
+            message.firstFullScytheReleaseSeen(),
+            message.totalSoulsReleased()
+        ));
     }
 }

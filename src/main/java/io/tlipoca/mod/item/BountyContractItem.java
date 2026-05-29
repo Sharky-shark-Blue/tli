@@ -69,6 +69,10 @@ public class BountyContractItem extends Item {
         boolean complete = BountyManager.isComplete(tag);
         tooltip.accept(Component.literal(tag.getStringOr("name", "未知悬赏")).withStyle(ChatFormatting.GOLD));
         tooltip.accept(Component.literal("目标：" + tag.getStringOr("target", "未知")).withStyle(ChatFormatting.GRAY));
+        String flavor = tag.getStringOr("flavor", "");
+        if (!flavor.isBlank()) {
+            tooltip.accept(Component.literal(flavor).withStyle(ChatFormatting.DARK_GRAY));
+        }
         tooltip.accept(Component.literal("进度：" + tag.getIntOr("progress", 0) + "/" + tag.getIntOr("required", 1)).withStyle(ChatFormatting.GRAY));
         tooltip.accept(Component.literal("剩余：" + BountyManager.formatRemainingTime(remaining)).withStyle(expired ? ChatFormatting.RED : ChatFormatting.GRAY));
         tooltip.accept(Component.literal("奖励：" + tag.getStringOr("reward", "未知")).withStyle(ChatFormatting.GRAY));

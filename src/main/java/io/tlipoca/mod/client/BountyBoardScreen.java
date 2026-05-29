@@ -85,7 +85,7 @@ public class BountyBoardScreen extends Screen {
         guiGraphics.drawString(this.font, definition.name(), x, y, TITLE_GOLD, true);
         guiGraphics.drawString(this.font, message.claimed()[slot] ? "已领取" : "可领取", x + width - 46, y, message.claimed()[slot] ? TEXT_WARN : TEXT_OK, true);
         guiGraphics.drawString(this.font, fitText("目标：" + definition.targetText(), width), x, y + 14, TEXT_GRAY, true);
-        guiGraphics.drawString(this.font, fitText("奖励：" + definition.rewardText(), width), x, y + 28, TEXT_DIM, true);
+        guiGraphics.drawString(this.font, fitText(definition.flavorText(), width), x, y + 28, TEXT_DIM, true);
     }
 
     private String fitText(String text, int maxWidth) {

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "tlipoca:block/mist_lamp_top",
+    "down": "tlipoca:block/yard_dark_stone",
+    "north": "tlipoca:block/mist_lamp_side",
+    "south": "tlipoca:block/mist_lamp_side",
+    "east": "tlipoca:block/mist_lamp_side",
+    "west": "tlipoca:block/mist_lamp_side",
+    "particle": "tlipoca:block/mist_lamp_side"
+  }
+}

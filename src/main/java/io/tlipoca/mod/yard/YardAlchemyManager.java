@@ -66,6 +66,46 @@ public final class YardAlchemyManager {
             List.of(Items.BOOK, TlipocaMod.SOUL_RECEIPT.get(), TlipocaMod.STAR_HONEY.get()),
             new ItemStack(TlipocaMod.GUEST_LEDGER.get()),
             "账簿合上时轻轻一响，仿佛又多了一位客人。"
+        ),
+        new Recipe(
+            List.of(Items.HONEY_BOTTLE, Items.PAPER, Items.AMETHYST_SHARD),
+            new ItemStack(TlipocaMod.FADED_INVITATION.get()),
+            "纸面慢慢褪色，只留下像是给你的座位。"
+        ),
+        new Recipe(
+            List.of(TlipocaMod.FADED_INVITATION.get(), TlipocaMod.FOG_DEW.get(), TlipocaMod.MOONDEW_LEAF.get()),
+            new ItemStack(TlipocaMod.MEMORY_FRAGMENT.get()),
+            "一小段记忆从雾里剥落，轻得几乎拿不住。"
+        ),
+        new Recipe(
+            List.of(TlipocaMod.FOG_DEW.get(), Items.TORCH, Items.AMETHYST_SHARD),
+            new ItemStack(TlipocaMod.MIST_LAMP_ITEM.get()),
+            "火光被雾包住，灯却比刚才更亮了一点。"
+        ),
+        new Recipe(
+            List.of(Items.PAPER, TlipocaMod.OLD_THEATER_TICKET.get(), TlipocaMod.ORACLE_INK.get()),
+            new ItemStack(TlipocaMod.OLD_POSTER_ITEM.get()),
+            "旧海报展开时，像有一场演出正在远处清嗓。"
+        ),
+        new Recipe(
+            List.of(TlipocaMod.NAMELESS_FLOWER_ITEM.get(), Items.GLASS_BOTTLE, TlipocaMod.MOONDEW_LEAF.get()),
+            new ItemStack(TlipocaMod.FOG_DEW.get()),
+            "瓶中凝起雾露，花名却仍旧没有想起来。"
+        ),
+        new Recipe(
+            List.of(Items.PAPER, Items.STRING, TlipocaMod.MEMORY_FRAGMENT.get()),
+            new ItemStack(TlipocaMod.OLD_THEATER_TICKET.get()),
+            "纸边压出齿痕，像刚从一场旧戏里撕下。"
+        ),
+        new Recipe(
+            List.of(Items.GLASS_BOTTLE, TlipocaMod.SOUL_RECEIPT.get(), TlipocaMod.STAR_HONEY.get(), TlipocaMod.MOONDEW_LEAF.get()),
+            new ItemStack(TlipocaMod.SOUL_CALMING_DRAFT.get()),
+            "瓶中安静下来。安静得像流程。"
+        ),
+        new Recipe(
+            List.of(Items.IRON_SWORD, Items.SOUL_SAND, TlipocaMod.SOUL_RECEIPT.get()),
+            new ItemStack(TlipocaMod.TRAINEE_REAPER_SCYTHE.get()),
+            "……这是我的。坏了。但还能用。你拿着吧。"
         )
     );
 

@@ -60,4 +60,17 @@ public record BountyDefinition(
             "不要盯着它太久。账本说那样不礼貌，也不安全。"
         );
     }
+
+    public static BountyDefinition villageWanderer() {
+        return new BountyDefinition(
+            "village_wanderer",
+            "村外徘徊者",
+            "击杀僵尸 1只",
+            List.of(EntityType.ZOMBIE),
+            1,
+            24000,
+            List.of(new ItemStack(Items.SOUL_SAND, 2)),
+            "记录：它曾登记于附近村落。备注：不影响收割。"
+        );
+    }
 }

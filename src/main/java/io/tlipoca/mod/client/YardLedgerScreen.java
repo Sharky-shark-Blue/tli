@@ -15,18 +15,38 @@ public class YardLedgerScreen extends Screen {
     private static final int TEXT_WARN = 0xFFFF6666;
     private static final int TEXT_OK = 0xFF88DDCC;
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 220;
+    private static final int PANEL_HEIGHT = 320;
     private static final int SCREEN_MARGIN = 8;
+    private static final int RECIPE_LINE_HEIGHT = 10;
+    private static final String[] KNOWN_RECIPES = {
+        "玻璃瓶 + 紫水晶碎片 + 甜浆果 -> 安神药",
+        "纸 + 骨粉 + 灵魂沙 -> 死神残页",
+        "墨囊 + 灵魂土 + 荧石粉 -> 收魂墨水"
+    };
+    private static final String[] BASIC_YARD_RECIPES = {
+        "蜂蜜瓶 + 纸 + 紫水晶碎片 -> 褪色邀请函",
+        "无名花 + 玻璃瓶 + 月露叶 -> 雾露",
+        "褪色邀请函 + 雾露 + 月露叶 -> 记忆碎片",
+        "纸 + 线 + 记忆碎片 -> 旧剧票"
+    };
+    private static final String[] DECORATION_RECIPES = {
+        "雾露 + 火把 + 紫水晶碎片 -> 雾灯",
+        "纸 + 旧剧票 + 神谕墨水 -> 旧海报"
+    };
 
     private final boolean inYard;
     private final int san;
     private final int unlockedOracleCount;
+    private final boolean firstFullScytheReleaseSeen;
+    private final int totalSoulsReleased;
 
-    public YardLedgerScreen(boolean inYard, int san, int unlockedOracleCount) {
+    public YardLedgerScreen(boolean inYard, int san, int unlockedOracleCount, boolean firstFullScytheReleaseSeen, int totalSoulsReleased) {
         super(Component.literal("特莉波卡的庭院账簿"));
         this.inYard = inYard;
         this.san = san;
         this.unlockedOracleCount = unlockedOracleCount;
+        this.firstFullScytheReleaseSeen = firstFullScytheReleaseSeen;
+        this.totalSoulsReleased = totalSoulsReleased;
     }
 
     @Override
@@ -46,7 +66,12 @@ public class YardLedgerScreen extends Screen {
         int contentWidth = panelWidth - 36;
         renderStatus(guiGraphics, contentX, top + 38, contentWidth);
         renderRecord(guiGraphics, contentX, top + 113, contentWidth);
-        renderRecipes(guiGraphics, contentX, top + 154, contentWidth);
+        int recipesY = top + 154;
+        if (firstFullScytheReleaseSeen) {
+            renderHarvestRecord(guiGraphics, contentX, recipesY, contentWidth);
+            recipesY += 48;
+        }
+        renderRecipes(guiGraphics, contentX, recipesY, contentWidth);
     }
 
     @Override
@@ -73,11 +98,32 @@ public class YardLedgerScreen extends Screen {
     }
 
     private void renderRecipes(GuiGraphics guiGraphics, int x, int y, int width) {
-        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 56, SECTION_BG);
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 94, SECTION_BG);
         guiGraphics.drawString(this.font, "已知庭院炼金", x, y, TITLE_GOLD, true);
-        guiGraphics.drawString(this.font, fitText("玻璃瓶 + 紫水晶碎片 + 甜浆果 -> 安神药", width), x, y + 14, TEXT_GRAY, true);
-        guiGraphics.drawString(this.font, fitText("纸 + 骨粉 + 灵魂沙 -> 死神残页", width), x, y + 28, TEXT_GRAY, true);
-        guiGraphics.drawString(this.font, fitText("墨囊 + 灵魂土 + 荧石粉 -> 收魂墨水", width), x, y + 42, TEXT_GRAY, true);
+
+        int columnGap = 14;
+        int columnWidth = (width - columnGap) / 2;
+        int rightX = x + columnWidth + columnGap;
+        drawRecipeGroup(guiGraphics, "已有配方", KNOWN_RECIPES, x, y + 14, columnWidth);
+        int nextY = drawRecipeGroup(guiGraphics, "基础庭院素材", BASIC_YARD_RECIPES, rightX, y + 14, columnWidth);
+        drawRecipeGroup(guiGraphics, "庭院装饰", DECORATION_RECIPES, rightX, nextY + 2, columnWidth);
+    }
+
+    private int drawRecipeGroup(GuiGraphics guiGraphics, String title, String[] recipes, int x, int y, int width) {
+        guiGraphics.drawString(this.font, title, x, y, TEXT_DIM, true);
+        int lineY = y + RECIPE_LINE_HEIGHT;
+        for (String recipe : recipes) {
+            guiGraphics.drawString(this.font, fitText(recipe, width), x, lineY, TEXT_GRAY, true);
+            lineY += RECIPE_LINE_HEIGHT;
+        }
+        return lineY;
+    }
+
+    private void renderHarvestRecord(GuiGraphics guiGraphics, int x, int y, int width) {
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 40, SECTION_BG);
+        guiGraphics.drawString(this.font, "收割记录", x, y, TITLE_GOLD, true);
+        guiGraphics.drawString(this.font, "累计已处理：" + totalSoulsReleased + " 个", x, y + 14, TEXT_GRAY, true);
+        guiGraphics.drawString(this.font, "……对不起。", x, y + 28, TEXT_GRAY, true);
     }
 
     private void drawKeyValue(GuiGraphics guiGraphics, int x, int y, String key, String value, int valueColor) {

@@ -25,7 +25,7 @@ public class BountyBoardBlockEntity extends BlockEntity {
 
     public BountyBoardBlockEntity(BlockPos pos, BlockState state) {
         super(TlipocaMod.BOUNTY_BOARD_BLOCK_ENTITY.get(), pos, state);
-        resetSlots();
+        resetToDefaultSlots();
     }
 
     public void refreshIfNeeded(Level level) {
@@ -62,13 +62,21 @@ public class BountyBoardBlockEntity extends BlockEntity {
 
     private void refresh(long gameTime) {
         lastRefreshGameTime = gameTime;
-        resetSlots();
+        rollSlots();
         markChangedAndUpdate();
     }
 
-    private void resetSlots() {
+    private void resetToDefaultSlots() {
         for (int slot = 0; slot < BountyManager.SLOT_COUNT; slot++) {
             bountyIds[slot] = BountyManager.getIdForSlot(slot);
+            claimed[slot] = false;
+        }
+    }
+
+    private void rollSlots() {
+        String[] rolledIds = BountyManager.rollBoardBounties(level.getRandom());
+        for (int slot = 0; slot < BountyManager.SLOT_COUNT; slot++) {
+            bountyIds[slot] = rolledIds[slot];
             claimed[slot] = false;
         }
     }

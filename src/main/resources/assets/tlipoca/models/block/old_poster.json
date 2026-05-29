@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "tlipoca:block/old_poster_top",
+    "down": "tlipoca:block/old_poster_top",
+    "north": "tlipoca:block/old_poster_front",
+    "south": "tlipoca:block/old_poster_back",
+    "east": "tlipoca:block/old_poster_back",
+    "west": "tlipoca:block/old_poster_back",
+    "particle": "tlipoca:block/old_poster_front"
+  }
+}

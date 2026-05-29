@@ -10,6 +10,8 @@ import io.tlipoca.mod.block.entity.BountyBoardBlockEntity;
 import io.tlipoca.mod.block.entity.YardAnchorBlockEntity;
 import io.tlipoca.mod.block.entity.YardOfferingPedestalBlockEntity;
 import io.tlipoca.mod.item.BountyContractItem;
+import io.tlipoca.mod.item.SoulCalmingDraftItem;
+import io.tlipoca.mod.item.TraineeReaperScytheItem;
 import io.tlipoca.mod.item.YardLedgerItem;
 import io.tlipoca.mod.item.YardLoreItem;
 import io.tlipoca.mod.network.TlipocaNetwork;
@@ -21,6 +23,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.Blocks;
@@ -106,6 +110,32 @@ public final class TlipocaMod {
             .strength(2.0F, 4.0F)
         )
     );
+
+    public static final RegistryObject<Block> MIST_LAMP = BLOCKS.register("mist_lamp",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .setId(BLOCKS.key("mist_lamp"))
+            .mapColor(MapColor.COLOR_PURPLE)
+            .lightLevel(state -> 12)
+            .strength(1.0F, 3.0F)
+        )
+    );
+
+    public static final RegistryObject<Block> OLD_POSTER = BLOCKS.register("old_poster",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .setId(BLOCKS.key("old_poster"))
+            .mapColor(MapColor.WOOD)
+            .strength(0.4F, 1.0F)
+        )
+    );
+
+    public static final RegistryObject<Block> NAMELESS_FLOWER = BLOCKS.register("nameless_flower",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .setId(BLOCKS.key("nameless_flower"))
+            .mapColor(MapColor.PLANT)
+            .noOcclusion()
+            .strength(0.2F, 0.2F)
+        )
+    );
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block",
         () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().setId(ITEMS.key("example_block")))
@@ -131,8 +161,36 @@ public final class TlipocaMod {
         () -> new BlockItem(BOUNTY_BOARD.get(), new Item.Properties().setId(ITEMS.key("bounty_board")))
     );
 
+    public static final RegistryObject<Item> MIST_LAMP_ITEM = ITEMS.register("mist_lamp",
+        () -> new BlockItem(MIST_LAMP.get(), new Item.Properties().setId(ITEMS.key("mist_lamp")))
+    );
+
+    public static final RegistryObject<Item> OLD_POSTER_ITEM = ITEMS.register("old_poster",
+        () -> new BlockItem(OLD_POSTER.get(), new Item.Properties().setId(ITEMS.key("old_poster")))
+    );
+
+    public static final RegistryObject<Item> NAMELESS_FLOWER_ITEM = ITEMS.register("nameless_flower",
+        () -> new BlockItem(NAMELESS_FLOWER.get(), new Item.Properties().setId(ITEMS.key("nameless_flower")))
+    );
+
     public static final RegistryObject<Item> GUEST_LEDGER = ITEMS.register("guest_ledger",
         () -> new YardLedgerItem(new Item.Properties().setId(ITEMS.key("guest_ledger")), "item.tlipoca.guest_ledger.desc")
+    );
+
+    public static final RegistryObject<Item> FADED_INVITATION = ITEMS.register("faded_invitation",
+        () -> new YardLoreItem(new Item.Properties().setId(ITEMS.key("faded_invitation")), "item.tlipoca.faded_invitation.desc")
+    );
+
+    public static final RegistryObject<Item> MEMORY_FRAGMENT = ITEMS.register("memory_fragment",
+        () -> new YardLoreItem(new Item.Properties().setId(ITEMS.key("memory_fragment")), "item.tlipoca.memory_fragment.desc")
+    );
+
+    public static final RegistryObject<Item> FOG_DEW = ITEMS.register("fog_dew",
+        () -> new YardLoreItem(new Item.Properties().setId(ITEMS.key("fog_dew")).stacksTo(16), "item.tlipoca.fog_dew.desc")
+    );
+
+    public static final RegistryObject<Item> OLD_THEATER_TICKET = ITEMS.register("old_theater_ticket",
+        () -> new YardLoreItem(new Item.Properties().setId(ITEMS.key("old_theater_ticket")), "item.tlipoca.old_theater_ticket.desc")
     );
 
     public static final RegistryObject<Item> SOUL_RECEIPT = ITEMS.register("soul_receipt",
@@ -159,8 +217,21 @@ public final class TlipocaMod {
         () -> new YardLoreItem(new Item.Properties().setId(ITEMS.key("oracle_ink")), "item.tlipoca.oracle_ink.desc")
     );
 
+    public static final RegistryObject<Item> SOUL_CALMING_DRAFT = ITEMS.register("soul_calming_draft",
+        () -> new SoulCalmingDraftItem(new Item.Properties().setId(ITEMS.key("soul_calming_draft")).stacksTo(16))
+    );
+
     public static final RegistryObject<Item> BOUNTY_CONTRACT = ITEMS.register("bounty_contract",
         () -> new BountyContractItem(new Item.Properties().setId(ITEMS.key("bounty_contract")).stacksTo(1))
+    );
+
+    public static final RegistryObject<Item> TRAINEE_REAPER_SCYTHE = ITEMS.register("trainee_reaper_scythe",
+        () -> new TraineeReaperScytheItem(new Item.Properties()
+            .setId(ITEMS.key("trainee_reaper_scythe"))
+            .sword(ToolMaterial.IRON, 3.0F, -2.8F)
+            .durability(384)
+            .rarity(Rarity.UNCOMMON)
+            .stacksTo(1))
     );
 
     public static final RegistryObject<BlockEntityType<YardAnchorBlockEntity>> YARD_ANCHOR_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("yard_anchor",
@@ -242,12 +313,21 @@ public final class TlipocaMod {
             event.accept(YARD_ALCHEMY_TABLE_ITEM);
             event.accept(YARD_OFFERING_PEDESTAL_ITEM);
             event.accept(BOUNTY_BOARD_ITEM);
+            event.accept(MIST_LAMP_ITEM);
+            event.accept(OLD_POSTER_ITEM);
+            event.accept(NAMELESS_FLOWER_ITEM);
             event.accept(GUEST_LEDGER);
+            event.accept(FADED_INVITATION);
+            event.accept(MEMORY_FRAGMENT);
+            event.accept(FOG_DEW);
+            event.accept(OLD_THEATER_TICKET);
             event.accept(SOUL_RECEIPT);
             event.accept(MOONDEW_LEAF);
             event.accept(STAR_HONEY);
             event.accept(ORACLE_INK);
+            event.accept(SOUL_CALMING_DRAFT);
             event.accept(BOUNTY_CONTRACT);
+            event.accept(TRAINEE_REAPER_SCYTHE);
         }
     }
 

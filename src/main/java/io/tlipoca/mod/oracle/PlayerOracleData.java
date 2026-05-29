@@ -31,6 +31,8 @@ public class PlayerOracleData {
     // dagon_gold: 最后一次离开水的游戏时间（-1 表示当前在水中或未记录）
     private long lastLeftWaterTime = -1;
     private long lastSleepRestoreTime = -1L;
+    private boolean firstFullScytheReleaseSeen;
+    private int totalSoulsReleased;
 
     public int getSan() {
         return san;
@@ -172,6 +174,24 @@ public class PlayerOracleData {
         this.lastSleepRestoreTime = lastSleepRestoreTime;
     }
 
+    public boolean isFirstFullScytheReleaseSeen() {
+        return firstFullScytheReleaseSeen;
+    }
+
+    public void setFirstFullScytheReleaseSeen(boolean firstFullScytheReleaseSeen) {
+        this.firstFullScytheReleaseSeen = firstFullScytheReleaseSeen;
+    }
+
+    public int getTotalSoulsReleased() {
+        return totalSoulsReleased;
+    }
+
+    public void addTotalSoulsReleased(int amount) {
+        if (amount > 0) {
+            totalSoulsReleased = Math.max(0, totalSoulsReleased + amount);
+        }
+    }
+
     public int upgradeStar(String oracleId) {
         int next = Math.min(OracleManager.MAX_ORACLE_STAR, oracleStars.getOrDefault(oracleId, 0) + 1);
         oracleStars.put(oracleId, next);
@@ -207,6 +227,8 @@ public class PlayerOracleData {
         tag.putBoolean(prefix + "_abyss_shield", abyssShield);
         tag.putLong(prefix + "_last_left_water_time", lastLeftWaterTime);
         tag.putLong(prefix + "_last_sleep_restore_time", lastSleepRestoreTime);
+        tag.putBoolean(prefix + "_first_full_scythe_release_seen", firstFullScytheReleaseSeen);
+        tag.putInt(prefix + "_total_souls_released", totalSoulsReleased);
         tag.putString(prefix + "_active_oracles", String.join(",", activeOracles));
 
         StringBuilder stars = new StringBuilder();
@@ -233,6 +255,8 @@ public class PlayerOracleData {
         abyssShield = tag.getBoolean(prefix + "_abyss_shield").orElse(false);
         lastLeftWaterTime = tag.getLong(prefix + "_last_left_water_time").orElse(-1L);
         lastSleepRestoreTime = tag.getLong(prefix + "_last_sleep_restore_time").orElse(-1L);
+        firstFullScytheReleaseSeen = tag.getBoolean(prefix + "_first_full_scythe_release_seen").orElse(false);
+        totalSoulsReleased = Math.max(0, tag.getInt(prefix + "_total_souls_released").orElse(0));
 
         activeOracles.clear();
         String activeRaw = tag.getString(prefix + "_active_oracles").orElse("");
