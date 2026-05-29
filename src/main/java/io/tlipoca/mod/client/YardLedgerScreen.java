@@ -15,7 +15,7 @@ public class YardLedgerScreen extends Screen {
     private static final int TEXT_WARN = 0xFFFF6666;
     private static final int TEXT_OK = 0xFF88DDCC;
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 390;
+    private static final int PANEL_HEIGHT = 440;
     private static final int SCREEN_MARGIN = 8;
     private static final int RECIPE_LINE_HEIGHT = 10;
     private static final String[] KNOWN_RECIPES = {
@@ -46,6 +46,7 @@ public class YardLedgerScreen extends Screen {
     private final String stageDescription;
     private final String stageHint;
     private final boolean hasMistLetter;
+    private final int mistLettersAnswered;
 
     public YardLedgerScreen(
         boolean inYard,
@@ -59,7 +60,8 @@ public class YardLedgerScreen extends Screen {
         String stageName,
         String stageDescription,
         String stageHint,
-        boolean hasMistLetter
+        boolean hasMistLetter,
+        int mistLettersAnswered
     ) {
         super(Component.literal("特莉波卡的庭院账簿"));
         this.inYard = inYard;
@@ -74,6 +76,7 @@ public class YardLedgerScreen extends Screen {
         this.stageDescription = stageDescription;
         this.stageHint = stageHint;
         this.hasMistLetter = hasMistLetter;
+        this.mistLettersAnswered = mistLettersAnswered;
     }
 
     @Override
@@ -96,6 +99,10 @@ public class YardLedgerScreen extends Screen {
         if (hasMistLetter) {
             renderMistLetter(guiGraphics, contentX, recordY, contentWidth);
             recordY += 66;
+        }
+        if (mistLettersAnswered > 0) {
+            renderMistLetterRecord(guiGraphics, contentX, recordY, contentWidth);
+            recordY += 50;
         }
         renderRecord(guiGraphics, contentX, recordY, contentWidth);
         int recipesY = recordY + 41;
@@ -159,6 +166,13 @@ public class YardLedgerScreen extends Screen {
         guiGraphics.drawString(this.font, fitText("“这里有灯……那我应该还没有走错太远。”", width), x, y + 14, TEXT_GRAY, true);
         guiGraphics.drawString(this.font, "请求：蜂蜜瓶 x2", x, y + 30, TEXT_DIM, true);
         guiGraphics.drawString(this.font, "回礼：记忆碎片 x1", x, y + 44, TEXT_OK, true);
+    }
+
+    private void renderMistLetterRecord(GuiGraphics guiGraphics, int x, int y, int width) {
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 42, SECTION_BG);
+        guiGraphics.drawString(this.font, "来信记录", x, y, TITLE_GOLD, true);
+        guiGraphics.drawString(this.font, "已回应来信：" + mistLettersAnswered + " 封", x, y + 14, TEXT_GRAY, true);
+        guiGraphics.drawString(this.font, "最近一封：信纸变轻了一点。", x, y + 28, TEXT_DIM, true);
     }
 
     private int drawRecipeGroup(GuiGraphics guiGraphics, String title, String[] recipes, int x, int y, int width) {

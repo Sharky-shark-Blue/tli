@@ -20,7 +20,8 @@ public final class YardLedgerScreenOpener {
             message.stageName(),
             message.stageDescription(),
             message.stageHint(),
-            message.hasMistLetter()
+            message.hasMistLetter(),
+            message.mistLettersAnswered()
         ));
     }
 }

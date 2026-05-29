@@ -54,6 +54,7 @@ public class YardLedgerItem extends YardLoreItem {
             player.drop(reward, false);
         }
         data.setLastMistLetterTurnInDay(currentDay);
+        data.addMistLettersAnswered(1);
         OracleManager.saveData(player, data);
         player.displayClientMessage(Component.literal("信纸变轻了一点。"), true);
     }

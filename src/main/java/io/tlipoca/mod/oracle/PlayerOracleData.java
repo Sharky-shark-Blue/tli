@@ -34,6 +34,7 @@ public class PlayerOracleData {
     private boolean firstFullScytheReleaseSeen;
     private int totalSoulsReleased;
     private long lastMistLetterTurnInDay = -1L;
+    private int mistLettersAnswered;
 
     public int getSan() {
         return san;
@@ -201,6 +202,16 @@ public class PlayerOracleData {
         this.lastMistLetterTurnInDay = lastMistLetterTurnInDay;
     }
 
+    public int getMistLettersAnswered() {
+        return mistLettersAnswered;
+    }
+
+    public void addMistLettersAnswered(int amount) {
+        if (amount > 0) {
+            mistLettersAnswered = Math.max(0, mistLettersAnswered + amount);
+        }
+    }
+
     public int upgradeStar(String oracleId) {
         int next = Math.min(OracleManager.MAX_ORACLE_STAR, oracleStars.getOrDefault(oracleId, 0) + 1);
         oracleStars.put(oracleId, next);
@@ -239,6 +250,7 @@ public class PlayerOracleData {
         tag.putBoolean(prefix + "_first_full_scythe_release_seen", firstFullScytheReleaseSeen);
         tag.putInt(prefix + "_total_souls_released", totalSoulsReleased);
         tag.putLong(prefix + "_last_mist_letter_turn_in_day", lastMistLetterTurnInDay);
+        tag.putInt(prefix + "_mist_letters_answered", mistLettersAnswered);
         tag.putString(prefix + "_active_oracles", String.join(",", activeOracles));
 
         StringBuilder stars = new StringBuilder();
@@ -268,6 +280,7 @@ public class PlayerOracleData {
         firstFullScytheReleaseSeen = tag.getBoolean(prefix + "_first_full_scythe_release_seen").orElse(false);
         totalSoulsReleased = Math.max(0, tag.getInt(prefix + "_total_souls_released").orElse(0));
         lastMistLetterTurnInDay = tag.getLong(prefix + "_last_mist_letter_turn_in_day").orElse(-1L);
+        mistLettersAnswered = Math.max(0, tag.getInt(prefix + "_mist_letters_answered").orElse(0));
 
         activeOracles.clear();
         String activeRaw = tag.getString(prefix + "_active_oracles").orElse("");
