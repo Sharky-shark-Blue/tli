@@ -2,6 +2,8 @@ package io.tlipoca.mod.item;
 
 import io.tlipoca.mod.TlipocaMod;
 import io.tlipoca.mod.network.TlipocaNetwork;
+import io.tlipoca.mod.oracle.OracleManager;
+import io.tlipoca.mod.oracle.PlayerOracleData;
 import io.tlipoca.mod.yard.YardManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,6 +36,13 @@ public class YardLedgerItem extends YardLoreItem {
             return;
         }
 
+        PlayerOracleData data = OracleManager.getData(player);
+        long currentDay = player.level().getGameTime() / 24000L;
+        if (data.getLastMistLetterTurnInDay() == currentDay) {
+            player.displayClientMessage(Component.literal("这封信今天已经变轻了。"), true);
+            return;
+        }
+
         if (countHoneyBottles(player) < MIST_LETTER_HONEY_COST) {
             player.displayClientMessage(Component.literal("来信还在等蜂蜜的甜味。"), true);
             return;
@@ -44,6 +53,8 @@ public class YardLedgerItem extends YardLoreItem {
         if (!player.getInventory().add(reward)) {
             player.drop(reward, false);
         }
+        data.setLastMistLetterTurnInDay(currentDay);
+        OracleManager.saveData(player, data);
         player.displayClientMessage(Component.literal("信纸变轻了一点。"), true);
     }
 
