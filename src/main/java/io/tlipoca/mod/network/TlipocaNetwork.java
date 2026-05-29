@@ -80,12 +80,20 @@ public final class TlipocaNetwork {
     public static void openYardLedgerScreen(ServerPlayer player) {
         PlayerOracleData data = OracleManager.getData(player);
         int unlockedOracleCount = countUnlockedOracles(data);
+        YardManager.YardProfile profile = YardManager.getYardProfile(player);
+        YardManager.YardStage stage = YardManager.getYardStage(profile);
         CHANNEL.send(new OpenYardLedgerScreenMessage(
             YardManager.isInYard(player),
             data.getSan(),
             unlockedOracleCount,
             data.isFirstFullScytheReleaseSeen(),
-            data.getTotalSoulsReleased()
+            data.getTotalSoulsReleased(),
+            profile.comfort(),
+            profile.otherworld(),
+            profile.memory(),
+            stage.displayName(),
+            stage.description(),
+            stage.hint()
         ), PacketDistributor.PLAYER.with(player));
     }
 

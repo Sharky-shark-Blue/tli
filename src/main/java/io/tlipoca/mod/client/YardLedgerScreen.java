@@ -39,14 +39,38 @@ public class YardLedgerScreen extends Screen {
     private final int unlockedOracleCount;
     private final boolean firstFullScytheReleaseSeen;
     private final int totalSoulsReleased;
+    private final int comfort;
+    private final int otherworld;
+    private final int memory;
+    private final String stageName;
+    private final String stageDescription;
+    private final String stageHint;
 
-    public YardLedgerScreen(boolean inYard, int san, int unlockedOracleCount, boolean firstFullScytheReleaseSeen, int totalSoulsReleased) {
+    public YardLedgerScreen(
+        boolean inYard,
+        int san,
+        int unlockedOracleCount,
+        boolean firstFullScytheReleaseSeen,
+        int totalSoulsReleased,
+        int comfort,
+        int otherworld,
+        int memory,
+        String stageName,
+        String stageDescription,
+        String stageHint
+    ) {
         super(Component.literal("特莉波卡的庭院账簿"));
         this.inYard = inYard;
         this.san = san;
         this.unlockedOracleCount = unlockedOracleCount;
         this.firstFullScytheReleaseSeen = firstFullScytheReleaseSeen;
         this.totalSoulsReleased = totalSoulsReleased;
+        this.comfort = comfort;
+        this.otherworld = otherworld;
+        this.memory = memory;
+        this.stageName = stageName;
+        this.stageDescription = stageDescription;
+        this.stageHint = stageHint;
     }
 
     @Override
@@ -65,8 +89,8 @@ public class YardLedgerScreen extends Screen {
         int contentX = left + 18;
         int contentWidth = panelWidth - 36;
         renderStatus(guiGraphics, contentX, top + 38, contentWidth);
-        renderRecord(guiGraphics, contentX, top + 113, contentWidth);
-        int recipesY = top + 154;
+        renderRecord(guiGraphics, contentX, top + 131, contentWidth);
+        int recipesY = top + 172;
         if (firstFullScytheReleaseSeen) {
             renderHarvestRecord(guiGraphics, contentX, recipesY, contentWidth);
             recipesY += 48;
@@ -80,12 +104,24 @@ public class YardLedgerScreen extends Screen {
     }
 
     private void renderStatus(GuiGraphics guiGraphics, int x, int y, int width) {
-        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 68, SECTION_BG);
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 86, SECTION_BG);
         guiGraphics.drawString(this.font, "庭院状态", x, y, TITLE_GOLD, true);
         drawKeyValue(guiGraphics, x, y + 16, "庭院连接", inYard ? "已连接" : "未连接", inYard ? TEXT_OK : TEXT_WARN);
         drawKeyValue(guiGraphics, x, y + 30, "SAN", san + "/100", san <= 30 ? TEXT_WARN : TEXT_GRAY);
         drawKeyValue(guiGraphics, x, y + 44, "已解锁神谕", unlockedOracleCount + "/6", TEXT_GRAY);
         drawKeyValue(guiGraphics, x, y + 58, "特莉波卡状态", inYard ? "投影稳定" : "信号微弱", inYard ? TEXT_OK : TEXT_WARN);
+
+        int atmosphereX = x + Math.max(190, width / 2);
+        int leftColumnWidth = atmosphereX - x - 12;
+        int rightColumnWidth = width - (atmosphereX - x);
+        guiGraphics.drawString(this.font, "庭院氛围", atmosphereX, y, TITLE_GOLD, true);
+        drawKeyValue(guiGraphics, atmosphereX, y + 16, "舒适度", Integer.toString(comfort), TEXT_GRAY);
+        drawKeyValue(guiGraphics, atmosphereX, y + 30, "异界度", Integer.toString(otherworld), TEXT_GRAY);
+        drawKeyValue(guiGraphics, atmosphereX, y + 44, "记忆度", Integer.toString(memory), TEXT_GRAY);
+        drawKeyValue(guiGraphics, atmosphereX, y + 58, "庭院阶段", stageName, TEXT_OK);
+
+        guiGraphics.drawString(this.font, fitText(stageDescription, leftColumnWidth), x, y + 72, TEXT_GRAY, true);
+        guiGraphics.drawString(this.font, fitText(stageHint, rightColumnWidth), atmosphereX, y + 72, TEXT_DIM, true);
     }
 
     private void renderRecord(GuiGraphics guiGraphics, int x, int y, int width) {

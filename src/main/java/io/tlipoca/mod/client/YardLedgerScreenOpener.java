@@ -13,7 +13,13 @@ public final class YardLedgerScreenOpener {
             message.san(),
             message.unlockedOracleCount(),
             message.firstFullScytheReleaseSeen(),
-            message.totalSoulsReleased()
+            message.totalSoulsReleased(),
+            message.comfort(),
+            message.otherworld(),
+            message.memory(),
+            message.stageName(),
+            message.stageDescription(),
+            message.stageHint()
         ));
     }
 }
