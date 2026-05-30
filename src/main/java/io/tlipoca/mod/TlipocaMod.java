@@ -3,10 +3,12 @@ package io.tlipoca.mod;
 import com.mojang.logging.LogUtils;
 import io.tlipoca.mod.block.BountyBoardBlock;
 import io.tlipoca.mod.block.DivinationTableBlock;
+import io.tlipoca.mod.block.SoulContainerBlock;
 import io.tlipoca.mod.block.YardAlchemyTableBlock;
 import io.tlipoca.mod.block.YardAnchorBlock;
 import io.tlipoca.mod.block.YardOfferingPedestalBlock;
 import io.tlipoca.mod.block.entity.BountyBoardBlockEntity;
+import io.tlipoca.mod.block.entity.SoulContainerBlockEntity;
 import io.tlipoca.mod.block.entity.YardAnchorBlockEntity;
 import io.tlipoca.mod.block.entity.YardOfferingPedestalBlockEntity;
 import io.tlipoca.mod.item.BountyContractItem;
@@ -111,6 +113,15 @@ public final class TlipocaMod {
         )
     );
 
+    public static final RegistryObject<Block> SOUL_CONTAINER = BLOCKS.register("soul_container",
+        () -> new SoulContainerBlock(BlockBehaviour.Properties.of()
+            .setId(BLOCKS.key("soul_container"))
+            .mapColor(MapColor.COLOR_PURPLE)
+            .noOcclusion()
+            .strength(2.2F, 5.0F)
+        )
+    );
+
     public static final RegistryObject<Block> MIST_LAMP = BLOCKS.register("mist_lamp",
         () -> new Block(BlockBehaviour.Properties.of()
             .setId(BLOCKS.key("mist_lamp"))
@@ -159,6 +170,10 @@ public final class TlipocaMod {
 
     public static final RegistryObject<Item> BOUNTY_BOARD_ITEM = ITEMS.register("bounty_board",
         () -> new BlockItem(BOUNTY_BOARD.get(), new Item.Properties().setId(ITEMS.key("bounty_board")))
+    );
+
+    public static final RegistryObject<Item> SOUL_CONTAINER_ITEM = ITEMS.register("soul_container",
+        () -> new BlockItem(SOUL_CONTAINER.get(), new Item.Properties().setId(ITEMS.key("soul_container")))
     );
 
     public static final RegistryObject<Item> MIST_LAMP_ITEM = ITEMS.register("mist_lamp",
@@ -246,6 +261,10 @@ public final class TlipocaMod {
         () -> new BlockEntityType<>(BountyBoardBlockEntity::new, Set.of(BOUNTY_BOARD.get()))
     );
 
+    public static final RegistryObject<BlockEntityType<SoulContainerBlockEntity>> SOUL_CONTAINER_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("soul_container",
+        () -> new BlockEntityType<>(SoulContainerBlockEntity::new, Set.of(SOUL_CONTAINER.get()))
+    );
+
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item",
         () -> new Item(new Item.Properties()
@@ -313,6 +332,7 @@ public final class TlipocaMod {
             event.accept(YARD_ALCHEMY_TABLE_ITEM);
             event.accept(YARD_OFFERING_PEDESTAL_ITEM);
             event.accept(BOUNTY_BOARD_ITEM);
+            event.accept(SOUL_CONTAINER_ITEM);
             event.accept(MIST_LAMP_ITEM);
             event.accept(OLD_POSTER_ITEM);
             event.accept(NAMELESS_FLOWER_ITEM);

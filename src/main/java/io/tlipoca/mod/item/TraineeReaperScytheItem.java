@@ -51,18 +51,7 @@ public class TraineeReaperScytheItem extends Item {
         setContainedSouls(stack, 0);
         giveReleaseResult(serverPlayer, containedSouls);
         serverPlayer.displayClientMessage(Component.literal("今日收割：" + containedSouls + "。"), false);
-
-        PlayerOracleData data = OracleManager.getData(serverPlayer);
-        data.addTotalSoulsReleased(containedSouls);
-        if (containedSouls >= MAX_CONTAINED_SOULS) {
-            if (!data.isFirstFullScytheReleaseSeen()) {
-                data.setFirstFullScytheReleaseSeen(true);
-                serverPlayer.displayClientMessage(Component.literal("其中一个还没到时间。"), false);
-                serverPlayer.displayClientMessage(Component.literal("但我还是收了。"), false);
-                serverPlayer.displayClientMessage(Component.literal("……对不起。"), false);
-            }
-        }
-        OracleManager.saveData(serverPlayer, data);
+        recordSoulRelease(serverPlayer, containedSouls, containedSouls >= MAX_CONTAINED_SOULS);
         return InteractionResult.SUCCESS;
     }
 
@@ -103,12 +92,28 @@ public class TraineeReaperScytheItem extends Item {
         return Math.max(0, Math.min(MAX_CONTAINED_SOULS, data.copyTag().getIntOr(KEY_CONTAINED_SOULS, 0)));
     }
 
-    private static void setContainedSouls(ItemStack stack, int containedSouls) {
+    public static void setContainedSouls(ItemStack stack, int containedSouls) {
         CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA) == null
             ? new CompoundTag()
             : stack.get(DataComponents.CUSTOM_DATA).copyTag();
         tag.putInt(KEY_CONTAINED_SOULS, Math.max(0, Math.min(MAX_CONTAINED_SOULS, containedSouls)));
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+    }
+
+    public static void recordSoulRelease(ServerPlayer player, int releasedSouls, boolean fullScytheRelease) {
+        if (releasedSouls <= 0) {
+            return;
+        }
+
+        PlayerOracleData data = OracleManager.getData(player);
+        data.addTotalSoulsReleased(releasedSouls);
+        if (fullScytheRelease && !data.isFirstFullScytheReleaseSeen()) {
+            data.setFirstFullScytheReleaseSeen(true);
+            player.displayClientMessage(Component.literal("其中一个还没到时间。"), false);
+            player.displayClientMessage(Component.literal("但我还是收了。"), false);
+            player.displayClientMessage(Component.literal("……对不起。"), false);
+        }
+        OracleManager.saveData(player, data);
     }
 
     private static void giveReleaseResult(ServerPlayer player, int containedSouls) {

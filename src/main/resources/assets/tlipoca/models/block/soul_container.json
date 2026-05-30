@@ -1,0 +1,96 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "stone": "tlipoca:block/yard_dark_stone",
+    "container": "tlipoca:block/soul_container",
+    "particle": "tlipoca:block/soul_container"
+  },
+  "elements": [
+    {
+      "name": "base",
+      "from": [2, 0, 2],
+      "to": [14, 3, 14],
+      "faces": {
+        "down": {"texture": "#stone", "cullface": "down"},
+        "up": {"texture": "#container"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "bowl",
+      "from": [3, 3, 3],
+      "to": [13, 9, 13],
+      "faces": {
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#container"},
+        "north": {"texture": "#container"},
+        "south": {"texture": "#container"},
+        "west": {"texture": "#container"},
+        "east": {"texture": "#container"}
+      }
+    },
+    {
+      "name": "inner_dark",
+      "from": [5, 9, 5],
+      "to": [11, 10, 11],
+      "faces": {
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
+      }
+    },
+    {
+      "name": "rim_north",
+      "from": [3, 9, 3],
+      "to": [13, 11, 5],
+      "faces": {
+        "up": {"texture": "#container"},
+        "north": {"texture": "#container"},
+        "south": {"texture": "#container"},
+        "west": {"texture": "#container"},
+        "east": {"texture": "#container"}
+      }
+    },
+    {
+      "name": "rim_south",
+      "from": [3, 9, 11],
+      "to": [13, 11, 13],
+      "faces": {
+        "up": {"texture": "#container"},
+        "north": {"texture": "#container"},
+        "south": {"texture": "#container"},
+        "west": {"texture": "#container"},
+        "east": {"texture": "#container"}
+      }
+    },
+    {
+      "name": "rim_west",
+      "from": [3, 9, 5],
+      "to": [5, 11, 11],
+      "faces": {
+        "up": {"texture": "#container"},
+        "north": {"texture": "#container"},
+        "south": {"texture": "#container"},
+        "west": {"texture": "#container"},
+        "east": {"texture": "#container"}
+      }
+    },
+    {
+      "name": "rim_east",
+      "from": [11, 9, 5],
+      "to": [13, 11, 11],
+      "faces": {
+        "up": {"texture": "#container"},
+        "north": {"texture": "#container"},
+        "south": {"texture": "#container"},
+        "west": {"texture": "#container"},
+        "east": {"texture": "#container"}
+      }
+    }
+  ]
+}
