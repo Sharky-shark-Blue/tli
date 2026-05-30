@@ -15,7 +15,7 @@ public class YardLedgerScreen extends Screen {
     private static final int TEXT_WARN = 0xFFFF6666;
     private static final int TEXT_OK = 0xFF88DDCC;
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 440;
+    private static final int PANEL_HEIGHT = 486;
     private static final int SCREEN_MARGIN = 8;
     private static final int RECIPE_LINE_HEIGHT = 10;
     private static final String[] KNOWN_RECIPES = {
@@ -47,6 +47,9 @@ public class YardLedgerScreen extends Screen {
     private final String stageHint;
     private final boolean hasMistLetter;
     private final int mistLettersAnswered;
+    private final int soulContainerCount;
+    private final int storedSouls;
+    private final int maxSoulCapacity;
 
     public YardLedgerScreen(
         boolean inYard,
@@ -61,7 +64,10 @@ public class YardLedgerScreen extends Screen {
         String stageDescription,
         String stageHint,
         boolean hasMistLetter,
-        int mistLettersAnswered
+        int mistLettersAnswered,
+        int soulContainerCount,
+        int storedSouls,
+        int maxSoulCapacity
     ) {
         super(Component.literal("特莉波卡的庭院账簿"));
         this.inYard = inYard;
@@ -77,6 +83,9 @@ public class YardLedgerScreen extends Screen {
         this.stageHint = stageHint;
         this.hasMistLetter = hasMistLetter;
         this.mistLettersAnswered = mistLettersAnswered;
+        this.soulContainerCount = soulContainerCount;
+        this.storedSouls = storedSouls;
+        this.maxSoulCapacity = maxSoulCapacity;
     }
 
     @Override
@@ -103,6 +112,10 @@ public class YardLedgerScreen extends Screen {
         if (mistLettersAnswered > 0) {
             renderMistLetterRecord(guiGraphics, contentX, recordY, contentWidth);
             recordY += 50;
+        }
+        if (soulContainerCount > 0) {
+            renderSoulContainers(guiGraphics, contentX, recordY, contentWidth);
+            recordY += 58;
         }
         renderRecord(guiGraphics, contentX, recordY, contentWidth);
         int recipesY = recordY + 41;
@@ -173,6 +186,15 @@ public class YardLedgerScreen extends Screen {
         guiGraphics.drawString(this.font, "来信记录", x, y, TITLE_GOLD, true);
         guiGraphics.drawString(this.font, "已回应来信：" + mistLettersAnswered + " 封", x, y + 14, TEXT_GRAY, true);
         guiGraphics.drawString(this.font, "最近一封：信纸变轻了一点。", x, y + 28, TEXT_DIM, true);
+    }
+
+    private void renderSoulContainers(GuiGraphics guiGraphics, int x, int y, int width) {
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 50, SECTION_BG);
+        guiGraphics.drawString(this.font, "收魂容器", x, y, TITLE_GOLD, true);
+        int rightX = x + Math.max(190, width / 2);
+        drawKeyValue(guiGraphics, x, y + 16, "容器数量", Integer.toString(soulContainerCount), TEXT_GRAY);
+        drawKeyValue(guiGraphics, rightX, y + 16, "已收容", storedSouls + " / " + maxSoulCapacity, TEXT_OK);
+        drawKeyValue(guiGraphics, x, y + 30, "可提取收据", (storedSouls / 3) + " 张", TEXT_GRAY);
     }
 
     private int drawRecipeGroup(GuiGraphics guiGraphics, String title, String[] recipes, int x, int y, int width) {

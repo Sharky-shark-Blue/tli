@@ -15,7 +15,10 @@ public record OpenYardLedgerScreenMessage(
     String stageDescription,
     String stageHint,
     boolean hasMistLetter,
-    int mistLettersAnswered
+    int mistLettersAnswered,
+    int soulContainerCount,
+    int storedSouls,
+    int maxSoulCapacity
 ) {
     public static void encode(OpenYardLedgerScreenMessage message, FriendlyByteBuf buffer) {
         buffer.writeBoolean(message.inYard());
@@ -31,6 +34,9 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeUtf(message.stageHint());
         buffer.writeBoolean(message.hasMistLetter());
         buffer.writeVarInt(message.mistLettersAnswered());
+        buffer.writeVarInt(message.soulContainerCount());
+        buffer.writeVarInt(message.storedSouls());
+        buffer.writeVarInt(message.maxSoulCapacity());
     }
 
     public static OpenYardLedgerScreenMessage decode(FriendlyByteBuf buffer) {
@@ -47,6 +53,9 @@ public record OpenYardLedgerScreenMessage(
             buffer.readUtf(),
             buffer.readUtf(),
             buffer.readBoolean(),
+            buffer.readVarInt(),
+            buffer.readVarInt(),
+            buffer.readVarInt(),
             buffer.readVarInt()
         );
     }

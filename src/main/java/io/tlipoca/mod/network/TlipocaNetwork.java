@@ -82,6 +82,7 @@ public final class TlipocaNetwork {
         int unlockedOracleCount = countUnlockedOracles(data);
         YardManager.YardProfile profile = YardManager.getYardProfile(player);
         YardManager.YardStage stage = YardManager.getYardStage(profile);
+        YardManager.YardSoulContainerSummary soulContainers = YardManager.getSoulContainerSummary(player);
         CHANNEL.send(new OpenYardLedgerScreenMessage(
             YardManager.isInYard(player),
             data.getSan(),
@@ -95,7 +96,10 @@ public final class TlipocaNetwork {
             stage.description(),
             stage.hint(),
             YardManager.hasMistNightLetter(player, profile),
-            data.getMistLettersAnswered()
+            data.getMistLettersAnswered(),
+            soulContainers.containerCount(),
+            soulContainers.storedSouls(),
+            soulContainers.maxSouls()
         ), PacketDistributor.PLAYER.with(player));
     }
 

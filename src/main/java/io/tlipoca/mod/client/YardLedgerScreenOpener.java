@@ -21,7 +21,10 @@ public final class YardLedgerScreenOpener {
             message.stageDescription(),
             message.stageHint(),
             message.hasMistLetter(),
-            message.mistLettersAnswered()
+            message.mistLettersAnswered(),
+            message.soulContainerCount(),
+            message.storedSouls(),
+            message.maxSoulCapacity()
         ));
     }
 }

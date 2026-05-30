@@ -1,6 +1,7 @@
 package io.tlipoca.mod.yard;
 
 import io.tlipoca.mod.TlipocaMod;
+import io.tlipoca.mod.block.entity.SoulContainerBlockEntity;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -113,6 +114,33 @@ public final class YardManager {
         return isNight && isInvitedOrBetter;
     }
 
+    public static YardSoulContainerSummary getSoulContainerSummary(ServerPlayer player) {
+        if (!(player.level() instanceof ServerLevel level)) {
+            return YardSoulContainerSummary.EMPTY;
+        }
+
+        BlockPos center = findContainingAnchor(player);
+        if (center == null) {
+            return YardSoulContainerSummary.EMPTY;
+        }
+
+        int containerCount = 0;
+        int storedSouls = 0;
+        int radius = (int) YARD_RADIUS;
+
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-radius, -8, -radius), center.offset(radius, 8, radius))) {
+            if (!isWithinYardRadius(center, pos) || level.getBlockState(pos).getBlock() != TlipocaMod.SOUL_CONTAINER.get()) {
+                continue;
+            }
+            if (level.getBlockEntity(pos) instanceof SoulContainerBlockEntity container) {
+                containerCount++;
+                storedSouls += container.getStoredSouls();
+            }
+        }
+
+        return new YardSoulContainerSummary(containerCount, storedSouls, containerCount * SoulContainerBlockEntity.MAX_SOULS);
+    }
+
     public static YardSurvey survey(ServerLevel level, BlockPos center) {
         int anchors = 0;
         int alchemyTables = 0;
@@ -160,6 +188,14 @@ public final class YardManager {
 
     public record YardProfile(int comfort, int otherworld, int memory) {
         public static final YardProfile EMPTY = new YardProfile(0, 0, 0);
+    }
+
+    public record YardSoulContainerSummary(int containerCount, int storedSouls, int maxSouls) {
+        public static final YardSoulContainerSummary EMPTY = new YardSoulContainerSummary(0, 0, 0);
+
+        public int availableReceipts() {
+            return storedSouls / 3;
+        }
     }
 
     public enum YardStage {
