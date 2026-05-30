@@ -15,7 +15,7 @@ public class YardLedgerScreen extends Screen {
     private static final int TEXT_WARN = 0xFFFF6666;
     private static final int TEXT_OK = 0xFF88DDCC;
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 486;
+    private static final int PANEL_HEIGHT = 500;
     private static final int SCREEN_MARGIN = 8;
     private static final int RECIPE_LINE_HEIGHT = 10;
     private static final String[] KNOWN_RECIPES = {
@@ -115,7 +115,7 @@ public class YardLedgerScreen extends Screen {
         }
         if (soulContainerCount > 0) {
             renderSoulContainers(guiGraphics, contentX, recordY, contentWidth);
-            recordY += 58;
+            recordY += 72;
         }
         renderRecord(guiGraphics, contentX, recordY, contentWidth);
         int recipesY = recordY + 41;
@@ -189,12 +189,36 @@ public class YardLedgerScreen extends Screen {
     }
 
     private void renderSoulContainers(GuiGraphics guiGraphics, int x, int y, int width) {
-        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 50, SECTION_BG);
+        guiGraphics.fill(x - 6, y - 6, x + width + 6, y + 64, SECTION_BG);
         guiGraphics.drawString(this.font, "收魂容器", x, y, TITLE_GOLD, true);
         int rightX = x + Math.max(190, width / 2);
         drawKeyValue(guiGraphics, x, y + 16, "容器数量", Integer.toString(soulContainerCount), TEXT_GRAY);
         drawKeyValue(guiGraphics, rightX, y + 16, "已收容", storedSouls + " / " + maxSoulCapacity, TEXT_OK);
         drawKeyValue(guiGraphics, x, y + 30, "可提取收据", (storedSouls / 3) + " 张", TEXT_GRAY);
+        drawKeyValue(guiGraphics, x, y + 44, "状态", soulContainerFlavor(), soulContainerFlavorColor());
+    }
+
+    private String soulContainerFlavor() {
+        if (storedSouls <= 0) {
+            return "空的。很安静。";
+        }
+        if (storedSouls >= maxSoulCapacity) {
+            return "太满了。会漏出来。";
+        }
+        if (storedSouls >= maxSoulCapacity / 2) {
+            return "声音变多了。";
+        }
+        return "有些名字还在里面。";
+    }
+
+    private int soulContainerFlavorColor() {
+        if (storedSouls >= maxSoulCapacity) {
+            return TEXT_WARN;
+        }
+        if (storedSouls > 0) {
+            return TEXT_OK;
+        }
+        return TEXT_DIM;
     }
 
     private int drawRecipeGroup(GuiGraphics guiGraphics, String title, String[] recipes, int x, int y, int width) {
