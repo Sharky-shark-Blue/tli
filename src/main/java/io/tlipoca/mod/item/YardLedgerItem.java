@@ -25,11 +25,33 @@ public class YardLedgerItem extends YardLoreItem {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            if (player.isShiftKeyDown()) {
+                tryArchiveMemoryFragment(serverPlayer);
+                TlipocaNetwork.openYardLedgerScreen(serverPlayer);
+                return InteractionResult.SUCCESS;
+            }
             tryTurnInMistVisitorRequest(serverPlayer);
             tryTurnInMistLetterRequest(serverPlayer);
             TlipocaNetwork.openYardLedgerScreen(serverPlayer);
         }
         return InteractionResult.SUCCESS;
+    }
+
+    private static void tryArchiveMemoryFragment(ServerPlayer player) {
+        if (!YardManager.isInYard(player)) {
+            player.displayClientMessage(Component.literal("离庭院太远了，记忆会散开。"), true);
+            return;
+        }
+        if (countItem(player, TlipocaMod.MEMORY_FRAGMENT.get()) <= 0) {
+            player.displayClientMessage(Component.literal("账簿在等一片记忆碎片。"), true);
+            return;
+        }
+
+        removeItem(player, TlipocaMod.MEMORY_FRAGMENT.get(), 1);
+        PlayerOracleData data = OracleManager.getData(player);
+        data.addArchivedMemoryFragments(1);
+        OracleManager.saveData(player, data);
+        player.displayClientMessage(Component.literal("记忆碎片被夹进账簿。"), true);
     }
 
     private static void tryTurnInMistVisitorRequest(ServerPlayer player) {

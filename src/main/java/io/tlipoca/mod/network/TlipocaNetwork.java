@@ -6,6 +6,7 @@ import io.tlipoca.mod.bounty.BountyManager;
 import io.tlipoca.mod.oracle.OracleManager;
 import io.tlipoca.mod.oracle.PlayerOracleData;
 import io.tlipoca.mod.yard.MistVisitorRequest;
+import io.tlipoca.mod.yard.YardMemoryArchive;
 import io.tlipoca.mod.yard.YardManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -94,6 +95,10 @@ public final class TlipocaNetwork {
             profile.comfort(),
             profile.otherworld(),
             profile.memory(),
+            data.getArchivedMemoryFragments(),
+            YardMemoryArchive.stageName(data.getArchivedMemoryFragments()),
+            YardMemoryArchive.stageText(data.getArchivedMemoryFragments()),
+            YardMemoryArchive.nextHint(data.getArchivedMemoryFragments()),
             stage.displayName(),
             stage.description(),
             stage.hint(),

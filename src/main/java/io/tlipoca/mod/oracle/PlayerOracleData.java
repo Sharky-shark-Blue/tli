@@ -38,6 +38,7 @@ public class PlayerOracleData {
     private long lastMistVisitorTurnInDay = -1L;
     private int mistVisitorsHelped;
     private final Map<String, Integer> mistVisitorRecords = new HashMap<>();
+    private int archivedMemoryFragments;
 
     public int getSan() {
         return san;
@@ -244,6 +245,16 @@ public class PlayerOracleData {
         mistVisitorRecords.put(visitorId, Math.max(0, mistVisitorRecords.getOrDefault(visitorId, 0)) + 1);
     }
 
+    public int getArchivedMemoryFragments() {
+        return archivedMemoryFragments;
+    }
+
+    public void addArchivedMemoryFragments(int amount) {
+        if (amount > 0) {
+            archivedMemoryFragments = Math.max(0, archivedMemoryFragments + amount);
+        }
+    }
+
     public int upgradeStar(String oracleId) {
         int next = Math.min(OracleManager.MAX_ORACLE_STAR, oracleStars.getOrDefault(oracleId, 0) + 1);
         oracleStars.put(oracleId, next);
@@ -286,6 +297,7 @@ public class PlayerOracleData {
         tag.putLong(prefix + "_last_mist_visitor_turn_in_day", lastMistVisitorTurnInDay);
         tag.putInt(prefix + "_mist_visitors_helped", mistVisitorsHelped);
         tag.putString(prefix + "_mist_visitor_records", encodeIntMap(mistVisitorRecords));
+        tag.putInt(prefix + "_archived_memory_fragments", archivedMemoryFragments);
         tag.putString(prefix + "_active_oracles", String.join(",", activeOracles));
 
         StringBuilder stars = new StringBuilder();
@@ -320,6 +332,7 @@ public class PlayerOracleData {
         mistVisitorsHelped = Math.max(0, tag.getInt(prefix + "_mist_visitors_helped").orElse(0));
         mistVisitorRecords.clear();
         decodeIntMap(tag.getString(prefix + "_mist_visitor_records").orElse(""), mistVisitorRecords);
+        archivedMemoryFragments = Math.max(0, tag.getInt(prefix + "_archived_memory_fragments").orElse(0));
 
         activeOracles.clear();
         String activeRaw = tag.getString(prefix + "_active_oracles").orElse("");

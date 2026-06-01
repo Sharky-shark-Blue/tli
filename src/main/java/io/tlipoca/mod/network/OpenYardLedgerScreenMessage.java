@@ -11,6 +11,10 @@ public record OpenYardLedgerScreenMessage(
     int comfort,
     int otherworld,
     int memory,
+    int archivedMemoryFragments,
+    String memoryArchiveStage,
+    String memoryArchiveText,
+    String memoryArchiveNextHint,
     String stageName,
     String stageDescription,
     String stageHint,
@@ -38,6 +42,10 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeVarInt(message.comfort());
         buffer.writeVarInt(message.otherworld());
         buffer.writeVarInt(message.memory());
+        buffer.writeVarInt(message.archivedMemoryFragments());
+        buffer.writeUtf(message.memoryArchiveStage());
+        buffer.writeUtf(message.memoryArchiveText());
+        buffer.writeUtf(message.memoryArchiveNextHint());
         buffer.writeUtf(message.stageName());
         buffer.writeUtf(message.stageDescription());
         buffer.writeUtf(message.stageHint());
@@ -67,6 +75,10 @@ public record OpenYardLedgerScreenMessage(
             buffer.readVarInt(),
             buffer.readVarInt(),
             buffer.readVarInt(),
+            buffer.readVarInt(),
+            buffer.readUtf(),
+            buffer.readUtf(),
+            buffer.readUtf(),
             buffer.readUtf(),
             buffer.readUtf(),
             buffer.readUtf(),

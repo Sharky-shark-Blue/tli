@@ -53,6 +53,10 @@ public class YardLedgerScreen extends Screen {
     private final int comfort;
     private final int otherworld;
     private final int memory;
+    private final int archivedMemoryFragments;
+    private final String memoryArchiveStage;
+    private final String memoryArchiveText;
+    private final String memoryArchiveNextHint;
     private final String stageName;
     private final String stageDescription;
     private final String stageHint;
@@ -82,6 +86,10 @@ public class YardLedgerScreen extends Screen {
         int comfort,
         int otherworld,
         int memory,
+        int archivedMemoryFragments,
+        String memoryArchiveStage,
+        String memoryArchiveText,
+        String memoryArchiveNextHint,
         String stageName,
         String stageDescription,
         String stageHint,
@@ -109,6 +117,10 @@ public class YardLedgerScreen extends Screen {
         this.comfort = comfort;
         this.otherworld = otherworld;
         this.memory = memory;
+        this.archivedMemoryFragments = archivedMemoryFragments;
+        this.memoryArchiveStage = memoryArchiveStage;
+        this.memoryArchiveText = memoryArchiveText;
+        this.memoryArchiveNextHint = memoryArchiveNextHint;
         this.stageName = stageName;
         this.stageDescription = stageDescription;
         this.stageHint = stageHint;
@@ -225,6 +237,7 @@ public class YardLedgerScreen extends Screen {
             case STATUS -> renderStatusPage(guiGraphics, x, contentTop - scroll, width);
             case LETTERS -> renderLettersPage(guiGraphics, x, contentTop - scroll, width);
             case VISITORS -> renderVisitorsPage(guiGraphics, x, contentTop - scroll, width);
+            case MEMORY -> renderMemoryPage(guiGraphics, x, contentTop - scroll, width);
             case SOULS -> renderSoulsPage(guiGraphics, x, contentTop - scroll, width);
             case ALCHEMY -> renderAlchemyPage(guiGraphics, x, contentTop - scroll, width);
         }
@@ -293,6 +306,19 @@ public class YardLedgerScreen extends Screen {
         guiGraphics.drawString(this.font, "已回应来客：" + mistVisitorsHelped + " 位", x + 16, y + 178, TEXT, true);
         guiGraphics.drawString(this.font, "已记录：" + mistVisitorRecordedTypes + " / " + mistVisitorTotalTypes + " 类", x + width - 146, y + 178, TEXT, true);
         guiGraphics.drawString(this.font, fitText(mistVisitorRecordSummary, width - 32), x + 16, y + 196, TEXT_DIM, true);
+    }
+
+    private void renderMemoryPage(GuiGraphics guiGraphics, int x, int y, int width) {
+        drawCard(guiGraphics, x, y, width, 118);
+        guiGraphics.drawString(this.font, "记忆归档", x + 16, y + 14, PURPLE, true);
+        drawKeyValue(guiGraphics, x + 16, y + 40, width - 32, "已归档", archivedMemoryFragments + " 片", TEXT);
+        drawKeyValue(guiGraphics, x + 16, y + 62, width - 32, "归档阶段", memoryArchiveStage, CYAN);
+        guiGraphics.drawString(this.font, fitText(memoryArchiveText, width - 32), x + 16, y + 86, TEXT_DIM, true);
+
+        drawCard(guiGraphics, x, y + 136, width, 72);
+        guiGraphics.drawString(this.font, "归档方式", x + 16, y + 150, PURPLE, true);
+        guiGraphics.drawString(this.font, "在庭院内蹲下右键账簿，消耗 1 片记忆碎片。", x + 16, y + 172, TEXT, true);
+        guiGraphics.drawString(this.font, fitText(memoryArchiveNextHint, width - 32), x + 16, y + 190, TEXT_DIM, true);
     }
 
     private void renderSoulsPage(GuiGraphics guiGraphics, int x, int y, int width) {
@@ -449,6 +475,7 @@ public class YardLedgerScreen extends Screen {
             case STATUS -> 256;
             case LETTERS -> 204;
             case VISITORS -> 228;
+            case MEMORY -> 220;
             case SOULS -> 220;
             case ALCHEMY -> 510;
         };
@@ -476,6 +503,7 @@ public class YardLedgerScreen extends Screen {
         STATUS("庭院状态", "庭院状态", new ItemStack(Items.AMETHYST_CLUSTER)),
         LETTERS("雾夜来信", "雾夜来信", new ItemStack(Items.PAPER)),
         VISITORS("雾夜来客", "雾夜来客", new ItemStack(Items.ENDER_EYE)),
+        MEMORY("记忆归档", "记忆归档", new ItemStack(Items.BOOK)),
         SOULS("收割记录", "收割记录", new ItemStack(Items.SOUL_LANTERN)),
         ALCHEMY("炼金配方", "庭院炼金", new ItemStack(Items.POTION));
 
