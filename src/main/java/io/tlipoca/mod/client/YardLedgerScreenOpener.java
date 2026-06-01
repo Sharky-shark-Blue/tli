@@ -24,6 +24,10 @@ public final class YardLedgerScreenOpener {
             message.mistLettersAnswered(),
             message.hasMistVisitor(),
             message.mistVisitorsHelped(),
+            message.mistVisitorTitle(),
+            message.mistVisitorRecord(),
+            message.mistVisitorRequestText(),
+            message.mistVisitorRewardText(),
             message.soulContainerCount(),
             message.storedSouls(),
             message.maxSoulCapacity()

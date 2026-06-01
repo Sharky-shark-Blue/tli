@@ -60,6 +60,10 @@ public class YardLedgerScreen extends Screen {
     private final int mistLettersAnswered;
     private final boolean hasMistVisitor;
     private final int mistVisitorsHelped;
+    private final String mistVisitorTitle;
+    private final String mistVisitorRecord;
+    private final String mistVisitorRequestText;
+    private final String mistVisitorRewardText;
     private final int soulContainerCount;
     private final int storedSouls;
     private final int maxSoulCapacity;
@@ -82,6 +86,10 @@ public class YardLedgerScreen extends Screen {
         int mistLettersAnswered,
         boolean hasMistVisitor,
         int mistVisitorsHelped,
+        String mistVisitorTitle,
+        String mistVisitorRecord,
+        String mistVisitorRequestText,
+        String mistVisitorRewardText,
         int soulContainerCount,
         int storedSouls,
         int maxSoulCapacity
@@ -102,6 +110,10 @@ public class YardLedgerScreen extends Screen {
         this.mistLettersAnswered = mistLettersAnswered;
         this.hasMistVisitor = hasMistVisitor;
         this.mistVisitorsHelped = mistVisitorsHelped;
+        this.mistVisitorTitle = mistVisitorTitle;
+        this.mistVisitorRecord = mistVisitorRecord;
+        this.mistVisitorRequestText = mistVisitorRequestText;
+        this.mistVisitorRewardText = mistVisitorRewardText;
         this.soulContainerCount = soulContainerCount;
         this.storedSouls = storedSouls;
         this.maxSoulCapacity = maxSoulCapacity;
@@ -256,12 +268,12 @@ public class YardLedgerScreen extends Screen {
 
     private void renderVisitorsPage(GuiGraphics guiGraphics, int x, int y, int width) {
         drawCard(guiGraphics, x, y, width, 126);
-        guiGraphics.drawString(this.font, "雾夜来客", x + 16, y + 14, PURPLE, true);
+        guiGraphics.drawString(this.font, hasMistVisitor ? mistVisitorTitle : "雾夜来客", x + 16, y + 14, PURPLE, true);
         if (hasMistVisitor) {
             guiGraphics.drawString(this.font, fitText("门外有人停了一会儿。没有敲门。", width - 34), x + 16, y + 36, TEXT, true);
-            guiGraphics.drawString(this.font, fitText("特莉波卡记录：名字被雾盖住了。", width - 34), x + 16, y + 56, TEXT_DIM, true);
-            drawKeyValue(guiGraphics, x + 16, y + 80, width - 32, "请求", "星蜜 x1", TEXT_DIM);
-            drawKeyValue(guiGraphics, x + 16, y + 100, width - 32, "回礼", "旧剧票 x1", TEXT_OK);
+            guiGraphics.drawString(this.font, fitText("特莉波卡记录：" + mistVisitorRecord, width - 34), x + 16, y + 56, TEXT_DIM, true);
+            drawKeyValue(guiGraphics, x + 16, y + 80, width - 32, "请求", mistVisitorRequestText, TEXT_DIM);
+            drawKeyValue(guiGraphics, x + 16, y + 100, width - 32, "回礼", mistVisitorRewardText, TEXT_OK);
         } else {
             guiGraphics.drawString(this.font, "今晚门口很安静。", x + 16, y + 48, TEXT_DIM, true);
             guiGraphics.drawString(this.font, "也许庭院还不像一个能停留的地方。", x + 16, y + 68, TEXT, true);

@@ -5,6 +5,7 @@ import io.tlipoca.mod.block.entity.BountyBoardBlockEntity;
 import io.tlipoca.mod.bounty.BountyManager;
 import io.tlipoca.mod.oracle.OracleManager;
 import io.tlipoca.mod.oracle.PlayerOracleData;
+import io.tlipoca.mod.yard.MistVisitorRequest;
 import io.tlipoca.mod.yard.YardManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -83,6 +84,7 @@ public final class TlipocaNetwork {
         YardManager.YardProfile profile = YardManager.getYardProfile(player);
         YardManager.YardStage stage = YardManager.getYardStage(profile);
         YardManager.YardSoulContainerSummary soulContainers = YardManager.getSoulContainerSummary(player);
+        MistVisitorRequest visitorRequest = MistVisitorRequest.currentFor(player);
         CHANNEL.send(new OpenYardLedgerScreenMessage(
             YardManager.isInYard(player),
             data.getSan(),
@@ -99,6 +101,10 @@ public final class TlipocaNetwork {
             data.getMistLettersAnswered(),
             YardManager.hasMistNightVisitor(player, profile),
             data.getMistVisitorsHelped(),
+            visitorRequest.title(),
+            visitorRequest.record(),
+            visitorRequest.requestText(),
+            visitorRequest.rewardText(),
             soulContainers.containerCount(),
             soulContainers.storedSouls(),
             soulContainers.maxSouls()

@@ -18,6 +18,10 @@ public record OpenYardLedgerScreenMessage(
     int mistLettersAnswered,
     boolean hasMistVisitor,
     int mistVisitorsHelped,
+    String mistVisitorTitle,
+    String mistVisitorRecord,
+    String mistVisitorRequestText,
+    String mistVisitorRewardText,
     int soulContainerCount,
     int storedSouls,
     int maxSoulCapacity
@@ -38,6 +42,10 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeVarInt(message.mistLettersAnswered());
         buffer.writeBoolean(message.hasMistVisitor());
         buffer.writeVarInt(message.mistVisitorsHelped());
+        buffer.writeUtf(message.mistVisitorTitle());
+        buffer.writeUtf(message.mistVisitorRecord());
+        buffer.writeUtf(message.mistVisitorRequestText());
+        buffer.writeUtf(message.mistVisitorRewardText());
         buffer.writeVarInt(message.soulContainerCount());
         buffer.writeVarInt(message.storedSouls());
         buffer.writeVarInt(message.maxSoulCapacity());
@@ -60,6 +68,10 @@ public record OpenYardLedgerScreenMessage(
             buffer.readVarInt(),
             buffer.readBoolean(),
             buffer.readVarInt(),
+            buffer.readUtf(),
+            buffer.readUtf(),
+            buffer.readUtf(),
+            buffer.readUtf(),
             buffer.readVarInt(),
             buffer.readVarInt(),
             buffer.readVarInt()

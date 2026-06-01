@@ -4,6 +4,7 @@ import io.tlipoca.mod.TlipocaMod;
 import io.tlipoca.mod.network.TlipocaNetwork;
 import io.tlipoca.mod.oracle.OracleManager;
 import io.tlipoca.mod.oracle.PlayerOracleData;
+import io.tlipoca.mod.yard.MistVisitorRequest;
 import io.tlipoca.mod.yard.YardManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.Level;
 
 public class YardLedgerItem extends YardLoreItem {
     private static final int MIST_LETTER_HONEY_COST = 2;
-    private static final int MIST_VISITOR_STAR_HONEY_COST = 1;
 
     public YardLedgerItem(Properties properties, String descriptionKey) {
         super(properties, descriptionKey);
@@ -45,20 +45,21 @@ public class YardLedgerItem extends YardLoreItem {
             return;
         }
 
-        if (countItem(player, TlipocaMod.STAR_HONEY.get()) < MIST_VISITOR_STAR_HONEY_COST) {
-            player.displayClientMessage(Component.literal("门外的人还在等一点星蜜。"), true);
+        MistVisitorRequest request = MistVisitorRequest.currentFor(player);
+        if (countItem(player, request.requestItem().get()) < request.requestCount()) {
+            player.displayClientMessage(Component.literal(request.missingMessage()), true);
             return;
         }
 
-        removeItem(player, TlipocaMod.STAR_HONEY.get(), MIST_VISITOR_STAR_HONEY_COST);
-        ItemStack reward = new ItemStack(TlipocaMod.OLD_THEATER_TICKET.get());
+        removeItem(player, request.requestItem().get(), request.requestCount());
+        ItemStack reward = request.createRewardStack();
         if (!player.getInventory().add(reward)) {
             player.drop(reward, false);
         }
         data.setLastMistVisitorTurnInDay(currentDay);
         data.addMistVisitorsHelped(1);
         OracleManager.saveData(player, data);
-        player.displayClientMessage(Component.literal("门口只剩下一张旧剧票。"), true);
+        player.displayClientMessage(Component.literal(request.successMessage()), true);
     }
 
     private static void tryTurnInMistLetterRequest(ServerPlayer player) {
