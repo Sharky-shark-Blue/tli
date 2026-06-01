@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 
 public class YardLedgerItem extends YardLoreItem {
     private static final int MIST_LETTER_HONEY_COST = 2;
+    private static final int MIST_VISITOR_STAR_HONEY_COST = 1;
 
     public YardLedgerItem(Properties properties, String descriptionKey) {
         super(properties, descriptionKey);
@@ -24,10 +25,40 @@ public class YardLedgerItem extends YardLoreItem {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            tryTurnInMistVisitorRequest(serverPlayer);
             tryTurnInMistLetterRequest(serverPlayer);
             TlipocaNetwork.openYardLedgerScreen(serverPlayer);
         }
         return InteractionResult.SUCCESS;
+    }
+
+    private static void tryTurnInMistVisitorRequest(ServerPlayer player) {
+        YardManager.YardProfile profile = YardManager.getYardProfile(player);
+        if (!YardManager.hasMistNightVisitor(player, profile)) {
+            return;
+        }
+
+        PlayerOracleData data = OracleManager.getData(player);
+        long currentDay = player.level().getGameTime() / 24000L;
+        if (data.getLastMistVisitorTurnInDay() == currentDay) {
+            player.displayClientMessage(Component.literal("今晚的来客已经离开了。"), true);
+            return;
+        }
+
+        if (countItem(player, TlipocaMod.STAR_HONEY.get()) < MIST_VISITOR_STAR_HONEY_COST) {
+            player.displayClientMessage(Component.literal("门外的人还在等一点星蜜。"), true);
+            return;
+        }
+
+        removeItem(player, TlipocaMod.STAR_HONEY.get(), MIST_VISITOR_STAR_HONEY_COST);
+        ItemStack reward = new ItemStack(TlipocaMod.OLD_THEATER_TICKET.get());
+        if (!player.getInventory().add(reward)) {
+            player.drop(reward, false);
+        }
+        data.setLastMistVisitorTurnInDay(currentDay);
+        data.addMistVisitorsHelped(1);
+        OracleManager.saveData(player, data);
+        player.displayClientMessage(Component.literal("门口只剩下一张旧剧票。"), true);
     }
 
     private static void tryTurnInMistLetterRequest(ServerPlayer player) {
@@ -60,21 +91,29 @@ public class YardLedgerItem extends YardLoreItem {
     }
 
     private static int countHoneyBottles(ServerPlayer player) {
+        return countItem(player, Items.HONEY_BOTTLE);
+    }
+
+    private static void removeHoneyBottles(ServerPlayer player, int count) {
+        removeItem(player, Items.HONEY_BOTTLE, count);
+    }
+
+    private static int countItem(ServerPlayer player, net.minecraft.world.item.Item item) {
         int count = 0;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             ItemStack stack = player.getInventory().getItem(slot);
-            if (stack.is(Items.HONEY_BOTTLE)) {
+            if (stack.is(item)) {
                 count += stack.getCount();
             }
         }
         return count;
     }
 
-    private static void removeHoneyBottles(ServerPlayer player, int count) {
+    private static void removeItem(ServerPlayer player, net.minecraft.world.item.Item item, int count) {
         int remaining = count;
         for (int slot = 0; slot < player.getInventory().getContainerSize() && remaining > 0; slot++) {
             ItemStack stack = player.getInventory().getItem(slot);
-            if (!stack.is(Items.HONEY_BOTTLE)) {
+            if (!stack.is(item)) {
                 continue;
             }
 

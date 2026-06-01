@@ -16,6 +16,8 @@ public record OpenYardLedgerScreenMessage(
     String stageHint,
     boolean hasMistLetter,
     int mistLettersAnswered,
+    boolean hasMistVisitor,
+    int mistVisitorsHelped,
     int soulContainerCount,
     int storedSouls,
     int maxSoulCapacity
@@ -34,6 +36,8 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeUtf(message.stageHint());
         buffer.writeBoolean(message.hasMistLetter());
         buffer.writeVarInt(message.mistLettersAnswered());
+        buffer.writeBoolean(message.hasMistVisitor());
+        buffer.writeVarInt(message.mistVisitorsHelped());
         buffer.writeVarInt(message.soulContainerCount());
         buffer.writeVarInt(message.storedSouls());
         buffer.writeVarInt(message.maxSoulCapacity());
@@ -52,6 +56,8 @@ public record OpenYardLedgerScreenMessage(
             buffer.readUtf(),
             buffer.readUtf(),
             buffer.readUtf(),
+            buffer.readBoolean(),
+            buffer.readVarInt(),
             buffer.readBoolean(),
             buffer.readVarInt(),
             buffer.readVarInt(),

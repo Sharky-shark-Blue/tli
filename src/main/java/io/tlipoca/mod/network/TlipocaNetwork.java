@@ -97,6 +97,8 @@ public final class TlipocaNetwork {
             stage.hint(),
             YardManager.hasMistNightLetter(player, profile),
             data.getMistLettersAnswered(),
+            YardManager.hasMistNightVisitor(player, profile),
+            data.getMistVisitorsHelped(),
             soulContainers.containerCount(),
             soulContainers.storedSouls(),
             soulContainers.maxSouls()

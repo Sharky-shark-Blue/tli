@@ -58,7 +58,7 @@ public final class YardManager {
 
         BlockPos center = findContainingAnchor(player);
         if (center == null) {
-            center = player.blockPosition();
+            return YardProfile.EMPTY;
         }
 
         int comfort = 0;
@@ -112,6 +112,20 @@ public final class YardManager {
         boolean isNight = dayTime >= 13000L && dayTime <= 23000L;
         boolean isInvitedOrBetter = profile.otherworld() >= 5 && profile.memory() >= 3;
         return isNight && isInvitedOrBetter;
+    }
+
+    public static boolean hasMistNightVisitor(ServerPlayer player, YardProfile profile) {
+        if (!(player.level() instanceof ServerLevel level)) {
+            return false;
+        }
+        if (!isInYard(player) || level.dimension() != Level.OVERWORLD) {
+            return false;
+        }
+
+        long dayTime = level.getDayTime() % 24000L;
+        boolean isNight = dayTime >= 13000L && dayTime <= 23000L;
+        boolean isStableBorder = profile.comfort() >= 3 && profile.otherworld() >= 6 && profile.memory() >= 5;
+        return isNight && isStableBorder;
     }
 
     public static YardSoulContainerSummary getSoulContainerSummary(ServerPlayer player) {

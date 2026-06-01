@@ -22,6 +22,8 @@ public final class YardLedgerScreenOpener {
             message.stageHint(),
             message.hasMistLetter(),
             message.mistLettersAnswered(),
+            message.hasMistVisitor(),
+            message.mistVisitorsHelped(),
             message.soulContainerCount(),
             message.storedSouls(),
             message.maxSoulCapacity()

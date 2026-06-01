@@ -94,8 +94,9 @@ public class SoulContainerBlock extends Block implements EntityBlock {
             return;
         }
 
+        boolean startedFromFullScythe = containedSouls >= TraineeReaperScytheItem.MAX_CONTAINED_SOULS;
         TraineeReaperScytheItem.setContainedSouls(stack, containedSouls - transferred);
-        TraineeReaperScytheItem.recordSoulRelease(player, transferred, containedSouls >= TraineeReaperScytheItem.MAX_CONTAINED_SOULS && transferred == containedSouls);
+        TraineeReaperScytheItem.recordSoulRelease(player, transferred, startedFromFullScythe);
         player.displayClientMessage(Component.literal("容器记下了 " + transferred + " 个名字。收容：" + container.getStoredSouls() + " / " + SoulContainerBlockEntity.MAX_SOULS), true);
     }
 

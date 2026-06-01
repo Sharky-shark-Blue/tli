@@ -48,10 +48,7 @@ public class TraineeReaperScytheItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        setContainedSouls(stack, 0);
-        giveReleaseResult(serverPlayer, containedSouls);
-        serverPlayer.displayClientMessage(Component.literal("今日收割：" + containedSouls + "。"), false);
-        recordSoulRelease(serverPlayer, containedSouls, containedSouls >= MAX_CONTAINED_SOULS);
+        serverPlayer.displayClientMessage(Component.literal("需要一个能记住名字的容器。"), true);
         return InteractionResult.SUCCESS;
     }
 
@@ -116,11 +113,4 @@ public class TraineeReaperScytheItem extends Item {
         OracleManager.saveData(player, data);
     }
 
-    private static void giveReleaseResult(ServerPlayer player, int containedSouls) {
-        int count = Math.max(1, Math.min(3, (containedSouls + 1) / 2));
-        ItemStack reward = new ItemStack(TlipocaMod.SOUL_RECEIPT.get(), count);
-        if (!player.getInventory().add(reward)) {
-            player.drop(reward, false);
-        }
-    }
 }
