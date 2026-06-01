@@ -60,6 +60,9 @@ public class YardLedgerScreen extends Screen {
     private final int mistLettersAnswered;
     private final boolean hasMistVisitor;
     private final int mistVisitorsHelped;
+    private final int mistVisitorRecordedTypes;
+    private final int mistVisitorTotalTypes;
+    private final String mistVisitorRecordSummary;
     private final String mistVisitorTitle;
     private final String mistVisitorRecord;
     private final String mistVisitorRequestText;
@@ -86,6 +89,9 @@ public class YardLedgerScreen extends Screen {
         int mistLettersAnswered,
         boolean hasMistVisitor,
         int mistVisitorsHelped,
+        int mistVisitorRecordedTypes,
+        int mistVisitorTotalTypes,
+        String mistVisitorRecordSummary,
         String mistVisitorTitle,
         String mistVisitorRecord,
         String mistVisitorRequestText,
@@ -110,6 +116,9 @@ public class YardLedgerScreen extends Screen {
         this.mistLettersAnswered = mistLettersAnswered;
         this.hasMistVisitor = hasMistVisitor;
         this.mistVisitorsHelped = mistVisitorsHelped;
+        this.mistVisitorRecordedTypes = mistVisitorRecordedTypes;
+        this.mistVisitorTotalTypes = mistVisitorTotalTypes;
+        this.mistVisitorRecordSummary = mistVisitorRecordSummary;
         this.mistVisitorTitle = mistVisitorTitle;
         this.mistVisitorRecord = mistVisitorRecord;
         this.mistVisitorRequestText = mistVisitorRequestText;
@@ -281,8 +290,9 @@ public class YardLedgerScreen extends Screen {
 
         drawCard(guiGraphics, x, y + 144, width, 72);
         guiGraphics.drawString(this.font, "来客记录", x + 16, y + 158, PURPLE, true);
-        guiGraphics.drawString(this.font, "已回应来客：" + mistVisitorsHelped + " 位", x + 16, y + 180, TEXT, true);
-        guiGraphics.drawString(this.font, "最近一位：留下了一张旧剧票。", x + 16, y + 196, TEXT_DIM, true);
+        guiGraphics.drawString(this.font, "已回应来客：" + mistVisitorsHelped + " 位", x + 16, y + 178, TEXT, true);
+        guiGraphics.drawString(this.font, "已记录：" + mistVisitorRecordedTypes + " / " + mistVisitorTotalTypes + " 类", x + width - 146, y + 178, TEXT, true);
+        guiGraphics.drawString(this.font, fitText(mistVisitorRecordSummary, width - 32), x + 16, y + 196, TEXT_DIM, true);
     }
 
     private void renderSoulsPage(GuiGraphics guiGraphics, int x, int y, int width) {

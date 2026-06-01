@@ -2,6 +2,7 @@ package io.tlipoca.mod.yard;
 
 import io.tlipoca.mod.TlipocaMod;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -114,6 +115,35 @@ public record MistVisitorRequest(
 
     public ItemStack createRewardStack() {
         return new ItemStack(rewardItem.get(), rewardCount);
+    }
+
+    public static int totalRequestTypes() {
+        return REQUESTS.size();
+    }
+
+    public static int countRecordedTypes(Map<String, Integer> records) {
+        int count = 0;
+        for (MistVisitorRequest request : REQUESTS) {
+            if (records.getOrDefault(request.id, 0) > 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static String summarizeRecords(Map<String, Integer> records) {
+        StringBuilder summary = new StringBuilder();
+        for (MistVisitorRequest request : REQUESTS) {
+            int count = records.getOrDefault(request.id, 0);
+            if (count <= 0) {
+                continue;
+            }
+            if (!summary.isEmpty()) {
+                summary.append(" / ");
+            }
+            summary.append(request.title).append(" x").append(count);
+        }
+        return summary.isEmpty() ? "还没有谁真的留下名字。" : summary.toString();
     }
 
     private int weightFor(YardManager.YardProfile profile) {

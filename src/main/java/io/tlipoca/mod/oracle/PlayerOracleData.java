@@ -37,6 +37,7 @@ public class PlayerOracleData {
     private int mistLettersAnswered;
     private long lastMistVisitorTurnInDay = -1L;
     private int mistVisitorsHelped;
+    private final Map<String, Integer> mistVisitorRecords = new HashMap<>();
 
     public int getSan() {
         return san;
@@ -232,6 +233,17 @@ public class PlayerOracleData {
         }
     }
 
+    public Map<String, Integer> getMistVisitorRecords() {
+        return mistVisitorRecords;
+    }
+
+    public void addMistVisitorRecord(String visitorId) {
+        if (visitorId == null || visitorId.isBlank()) {
+            return;
+        }
+        mistVisitorRecords.put(visitorId, Math.max(0, mistVisitorRecords.getOrDefault(visitorId, 0)) + 1);
+    }
+
     public int upgradeStar(String oracleId) {
         int next = Math.min(OracleManager.MAX_ORACLE_STAR, oracleStars.getOrDefault(oracleId, 0) + 1);
         oracleStars.put(oracleId, next);
@@ -273,6 +285,7 @@ public class PlayerOracleData {
         tag.putInt(prefix + "_mist_letters_answered", mistLettersAnswered);
         tag.putLong(prefix + "_last_mist_visitor_turn_in_day", lastMistVisitorTurnInDay);
         tag.putInt(prefix + "_mist_visitors_helped", mistVisitorsHelped);
+        tag.putString(prefix + "_mist_visitor_records", encodeIntMap(mistVisitorRecords));
         tag.putString(prefix + "_active_oracles", String.join(",", activeOracles));
 
         StringBuilder stars = new StringBuilder();
@@ -305,6 +318,8 @@ public class PlayerOracleData {
         mistLettersAnswered = Math.max(0, tag.getInt(prefix + "_mist_letters_answered").orElse(0));
         lastMistVisitorTurnInDay = tag.getLong(prefix + "_last_mist_visitor_turn_in_day").orElse(-1L);
         mistVisitorsHelped = Math.max(0, tag.getInt(prefix + "_mist_visitors_helped").orElse(0));
+        mistVisitorRecords.clear();
+        decodeIntMap(tag.getString(prefix + "_mist_visitor_records").orElse(""), mistVisitorRecords);
 
         activeOracles.clear();
         String activeRaw = tag.getString(prefix + "_active_oracles").orElse("");
@@ -337,5 +352,38 @@ public class PlayerOracleData {
 
         activeOracles.retainAll(oracleStars.keySet());
         activeOracles.addAll(oracleStars.keySet());
+    }
+
+    private static String encodeIntMap(Map<String, Integer> values) {
+        StringBuilder encoded = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : values.entrySet()) {
+            if (entry.getKey() == null || entry.getKey().isBlank() || entry.getValue() == null || entry.getValue() <= 0) {
+                continue;
+            }
+            if (!encoded.isEmpty()) {
+                encoded.append(",");
+            }
+            encoded.append(entry.getKey()).append(":").append(entry.getValue());
+        }
+        return encoded.toString();
+    }
+
+    private static void decodeIntMap(String raw, Map<String, Integer> target) {
+        if (raw == null || raw.isBlank()) {
+            return;
+        }
+        for (String token : raw.split(",")) {
+            String[] parts = token.split(":");
+            if (parts.length != 2 || parts[0].isBlank()) {
+                continue;
+            }
+            try {
+                int value = Integer.parseInt(parts[1]);
+                if (value > 0) {
+                    target.put(parts[0], value);
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
     }
 }

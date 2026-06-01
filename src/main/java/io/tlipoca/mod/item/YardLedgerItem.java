@@ -58,6 +58,7 @@ public class YardLedgerItem extends YardLoreItem {
         }
         data.setLastMistVisitorTurnInDay(currentDay);
         data.addMistVisitorsHelped(1);
+        data.addMistVisitorRecord(request.id());
         OracleManager.saveData(player, data);
         player.displayClientMessage(Component.literal(request.successMessage()), true);
     }

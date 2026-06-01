@@ -18,6 +18,9 @@ public record OpenYardLedgerScreenMessage(
     int mistLettersAnswered,
     boolean hasMistVisitor,
     int mistVisitorsHelped,
+    int mistVisitorRecordedTypes,
+    int mistVisitorTotalTypes,
+    String mistVisitorRecordSummary,
     String mistVisitorTitle,
     String mistVisitorRecord,
     String mistVisitorRequestText,
@@ -42,6 +45,9 @@ public record OpenYardLedgerScreenMessage(
         buffer.writeVarInt(message.mistLettersAnswered());
         buffer.writeBoolean(message.hasMistVisitor());
         buffer.writeVarInt(message.mistVisitorsHelped());
+        buffer.writeVarInt(message.mistVisitorRecordedTypes());
+        buffer.writeVarInt(message.mistVisitorTotalTypes());
+        buffer.writeUtf(message.mistVisitorRecordSummary());
         buffer.writeUtf(message.mistVisitorTitle());
         buffer.writeUtf(message.mistVisitorRecord());
         buffer.writeUtf(message.mistVisitorRequestText());
@@ -68,6 +74,9 @@ public record OpenYardLedgerScreenMessage(
             buffer.readVarInt(),
             buffer.readBoolean(),
             buffer.readVarInt(),
+            buffer.readVarInt(),
+            buffer.readVarInt(),
+            buffer.readUtf(),
             buffer.readUtf(),
             buffer.readUtf(),
             buffer.readUtf(),
