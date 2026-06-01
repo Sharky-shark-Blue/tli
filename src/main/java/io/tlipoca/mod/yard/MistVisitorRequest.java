@@ -17,6 +17,9 @@ public record MistVisitorRequest(
     int requestCount,
     Supplier<Item> rewardItem,
     int rewardCount,
+    int comfortWeight,
+    int otherworldWeight,
+    int memoryWeight,
     String missingMessage,
     String successMessage
 ) {
@@ -31,6 +34,9 @@ public record MistVisitorRequest(
             1,
             TlipocaMod.MEMORY_FRAGMENT,
             1,
+            3,
+            1,
+            2,
             "门外的人还在等一张邀请函。",
             "邀请函被收走了。雾里落下一片记忆。"
         ),
@@ -44,6 +50,9 @@ public record MistVisitorRequest(
             1,
             TlipocaMod.OLD_THEATER_TICKET,
             1,
+            2,
+            2,
+            2,
             "门外的人还在等一点星蜜。",
             "门口只剩下一张旧剧票。"
         ),
@@ -56,6 +65,9 @@ public record MistVisitorRequest(
             TlipocaMod.FOG_DEW,
             1,
             TlipocaMod.ORACLE_INK,
+            1,
+            1,
+            4,
             1,
             "信使还在等一滴雾露。",
             "湿信封里渗出一点墨。"
@@ -70,19 +82,44 @@ public record MistVisitorRequest(
             1,
             TlipocaMod.NAMELESS_FLOWER_ITEM,
             1,
+            1,
+            1,
+            4,
             "空座还在等一张旧剧票。",
             "座位空了，那里长出一朵无名花。"
         )
     );
 
     public static MistVisitorRequest currentFor(ServerPlayer player) {
+        return currentFor(player, YardManager.getYardProfile(player));
+    }
+
+    public static MistVisitorRequest currentFor(ServerPlayer player, YardManager.YardProfile profile) {
+        int totalWeight = 0;
+        for (MistVisitorRequest request : REQUESTS) {
+            totalWeight += request.weightFor(profile);
+        }
+
         long day = player.level().getGameTime() / 24000L;
         int seed = player.getUUID().hashCode();
-        int index = Math.floorMod((int) (day * 31L + seed), REQUESTS.size());
-        return REQUESTS.get(index);
+        int roll = Math.floorMod((int) (day * 31L + seed), Math.max(1, totalWeight));
+        for (MistVisitorRequest request : REQUESTS) {
+            roll -= request.weightFor(profile);
+            if (roll < 0) {
+                return request;
+            }
+        }
+        return REQUESTS.get(0);
     }
 
     public ItemStack createRewardStack() {
         return new ItemStack(rewardItem.get(), rewardCount);
+    }
+
+    private int weightFor(YardManager.YardProfile profile) {
+        int weightedAtmosphere = profile.comfort() * comfortWeight
+            + profile.otherworld() * otherworldWeight
+            + profile.memory() * memoryWeight;
+        return Math.max(1, 10 + weightedAtmosphere);
     }
 }

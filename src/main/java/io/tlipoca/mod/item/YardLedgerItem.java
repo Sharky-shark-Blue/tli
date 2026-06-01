@@ -45,7 +45,7 @@ public class YardLedgerItem extends YardLoreItem {
             return;
         }
 
-        MistVisitorRequest request = MistVisitorRequest.currentFor(player);
+        MistVisitorRequest request = MistVisitorRequest.currentFor(player, profile);
         if (countItem(player, request.requestItem().get()) < request.requestCount()) {
             player.displayClientMessage(Component.literal(request.missingMessage()), true);
             return;

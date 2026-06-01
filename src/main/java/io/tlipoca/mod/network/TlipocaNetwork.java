@@ -84,7 +84,7 @@ public final class TlipocaNetwork {
         YardManager.YardProfile profile = YardManager.getYardProfile(player);
         YardManager.YardStage stage = YardManager.getYardStage(profile);
         YardManager.YardSoulContainerSummary soulContainers = YardManager.getSoulContainerSummary(player);
-        MistVisitorRequest visitorRequest = MistVisitorRequest.currentFor(player);
+        MistVisitorRequest visitorRequest = MistVisitorRequest.currentFor(player, profile);
         CHANNEL.send(new OpenYardLedgerScreenMessage(
             YardManager.isInYard(player),
             data.getSan(),
